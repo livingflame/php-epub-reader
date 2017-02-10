@@ -97,7 +97,7 @@ a.home{float:left;margin:8px 0 0 6px;}
 /*-------LOGIN STARTS HERE -------*/
 
 /* Login Container (default to float:right) */
-#loginContainer {
+#speakContainer {
 	margin:8px 8px 0 0;
     position:relative;
     float:right;
@@ -105,7 +105,7 @@ a.home{float:left;margin:8px 0 0 6px;}
 }
 
 /* Login Button */
-#loginButton { 
+#speakButton, #speakPrev, #speakNext { 
     display:inline-block;
     float:right;
     background:#d2e0ea; 
@@ -115,10 +115,12 @@ a.home{float:left;margin:8px 0 0 6px;}
     position:relative;
     z-index:30;
     cursor:pointer;
+    margin-right:3px;
+    text-decoration:none;
 }
 
 /* Login Button Text */
-#loginButton span {
+#speakButton span, #speakPrev span, #speakNext span {
     color:#445058; 
     font-size:14px; 
     font-weight:bold; 
@@ -126,10 +128,10 @@ a.home{float:left;margin:8px 0 0 6px;}
     padding: 5px 7px;
     display:block
 }
-
+#speakPrev, #speakNext{display:none;}
 
 /* Login Box */
-#loginBox {
+#speakBox {
     position:absolute;
     top:34px;
     right:0;

@@ -29,7 +29,6 @@ $(document).ready(function() {
 
     function logEvent(event)
     {
-        console.log(event);
         read_status = event;
     }
     
@@ -40,59 +39,64 @@ $(document).ready(function() {
         });
     } else {
     	var par = [];
+    	var current_index = 0;
         var voice = $('#voice');
-        var rate = document.getElementById('rate');
-        var pitch = document.getElementById('pitch');
+        var rate = $( "#rate" );
+        var pitch = $( "#pitch" );
         var readParagraph = function(p){
-            if ( texts[p] !== undefined ) {
+            current_index = p;
+            if ( par[p] !== undefined ) {
                 var selectedOption = $( "#voice option:selected" );
-                var paragraph = texts[p];
-                if(read_status && (read_status != 'stopped' || read_status != 'finished')){
+                var paragraph = par[p];
+                if(read_status && (read_status != 'stopped' || read_status != 'finished' || read_status != 'done')){
                     synth.cancel();
-                }
+                } 
+
                 // Create the utterance object setting the chosen parameters
                 var utterance = new SpeechSynthesisUtterance();
-
                 utterance.text = paragraph.text();
-                
-                for(i = 0; i < voices.length ; i++) {
+                for(var i = 0; i < voices.length ; i++) {
                     if(voices[i].name === selectedOption.attr('data-voice-name')) {
                         utterance.voice = voices[i];
                     }
                 }
 
                 utterance.lang = selectedOption.val();
-                utterance.rate = rate.value;
-                utterance.pitch = pitch.value;
-
-                $(utterance).on('start', function() {
+                utterance.rate = rate.val();
+                utterance.pitch = pitch.val();
+                utterance.onstart = function(event){
                     paragraph.addClass('read');
                     logEvent('started');
-                });
-
-                $(utterance).on('end', function() {
-                    logEvent('finished');
+                };
+                utterance.onend = function(event){
+                    var charIndex = event.charIndex;
+                    var text_length = event.utterance.text.length;
+                    if(charIndex == text_length){
+                        readParagraph(p+1);
+                        logEvent('finished');
+                    } else {
+                        logEvent('done');
+                    }
                     paragraph.removeClass('read');
-                    readParagraph(p+1);
-                });
+                };
                 synth.speak(utterance);
                 if(!paragraph.fullyInView()){
                     $('html, body').stop().animate({
                         scrollTop: paragraph.offset().top - 50
                     }, 2000);
                 }
+            } else {
+                $("#button-resume,#button-pause,#speakPrev,#speakNext,#speakBox").hide();
+                $("#button-speak").show();
             }
+
         };
         
         injectVoices(voice, synth.getVoices());
-
-        synth.addEventListener('voiceschanged', function onVoiceChanged() {
-            synth.removeEventListener('voiceschanged', onVoiceChanged);
-            injectVoices(voice, synth.getVoices());
-        });
-
+        if (synth.onvoiceschanged !== undefined) {
+            synth.onvoiceschanged = injectVoices(voice, synth.getVoices());
+        };
         $("body").on('click','#button-stop',function () {
-            texts = [];
             $('#epubbody *').contents().filter(function() { 
                 return (this.nodeType == 3) && this.nodeValue.length > 0; 
               }).unwrap("<span class=\"tobe_read\"></span>");
@@ -100,6 +104,7 @@ $(document).ready(function() {
             $("#button-speak").show();
             par = [];
             $(this).hide();
+            $("#button-resume,#button-pause,#speakPrev, #speakNext").hide();
             logEvent('stopped');
         });
 
@@ -117,51 +122,43 @@ $(document).ready(function() {
             $(this).hide();
         });
 
+        $("body").on('click','#speakPrev',function () {
+            readParagraph(current_index-1);
+        });
+
+        $("body").on('click','#speakNext',function () {
+            readParagraph(current_index+1);
+        });
 
         $("#button-speak").click(function (e) {
             e.preventDefault();
-            var i = 0;
             $('#epubbody *').contents().filter(function() { 
                 return (this.nodeType == 3) && this.nodeValue.length > 0; 
-              }).wrap("<span class=\"tobe_read\"></span>");
+            }).wrap("<span class=\"tobe_read\"></span>");
             
             $( "#epubbody" ).find('span.tobe_read').each(function( index ) {
                 par[index] = $(this);
             });
-            texts = par;
-            readParagraph(i);
-            $('#button-stop').show();
-            $('#button-pause').show();
+            readParagraph(0);
+            $('#button-stop,#button-pause,#speakPrev, #speakNext').show();
             $(this).hide();
         });
         
-        $( "#epubbody" ).on('click','span.tobe_read',function(){
-            var index = $( "span.tobe_read" ).index( this );
-            readParagraph(index-1);
-        });
-
     }
 	
-	// Login Form
-
-	$(function() {
-		var button = $('#loginButton');
-		var box = $('#loginBox');
-		var form = $('#loginForm');
-		button.removeAttr('href');
-		button.mouseup(function(login) {
-			box.toggle();
-			button.toggleClass('active');
-		});
-		form.mouseup(function() { 
-			return false;
-		});
-		$(this).mouseup(function(login) {
-			if(!($(login.target).parent('#loginButton').length > 0)) {
-				button.removeClass('active');
-				box.hide();
-			}
-		});
-	});
+	// Form
+    var speakButton = $('#speakButton');
+    var box = $('#speakBox');
+    speakButton.click(function(event) {
+        box.toggle();
+        $(this).toggleClass('active');
+        event.preventDefault();
+    });
+    $('body').click(function(event) {
+        if(!($(event.target).closest('#speakContainer').length > 0)) {
+            speakButton.removeClass('active');
+            box.hide();
+        }
+    });
 });
 

@@ -1,12 +1,14 @@
 <?php 
 class ePubReader {
 	public $bookRoot;
+	public $book;
 	public $file;
 	public $fileTypes = array();
 	public $fileLocations = array();
 	public $filesIds = array();
-	public $bookTitle;
-	public $bookAuthor;
+	public $book_title;
+	public $book_author;
+	public $book_description;
 	public $toc;
 	public $files = array();
 	public $chapters = array();
@@ -16,40 +18,50 @@ class ePubReader {
 
 	public $show_page = 1;
 	public $show_toc = FALSE;
+    public $extok = FALSE;
 	public $ext;
 
 	public $epub_version;
 	public $epub3_toc;
+	public $cover;
 	public $spineIds = array();
 	public $spine;
 	public $ncx;
+	public $valid_epub;
 
-	public function __construct() {
+	public function __construct($book_file, $config = array()) {
+        $settings = array_merge(array(
+            'show_toc' => FALSE,
+            'show_page' => null,
+            'ext' => null,
+            'extok' => FALSE,
+        ), $config);
         
-        if ( isset($_GET['showToc']) && $_GET['showToc'] == "true") {
-            $this->show_toc = TRUE;
-        }
+        $this->show_toc = $settings['show_toc'];
 
-        if ( isset($_GET['book']) && $_GET['book'] != "") {
-            $tempFile = rawurldecode($_GET['book']);
-            if (file_exists($tempFile) && is_file($tempFile)) {
-                $book = $tempFile;
-            }
+        if($settings['show_page']){
+            $this->show_page = (int)$settings['show_page'];
+        }
+        $this->ext = $settings['ext'];
+        $this->extok = $settings['extok'];
+        
+        $tempFile = rawurldecode($book_file);
+        if (file_exists($tempFile) && is_file($tempFile)) {
+            $book = $tempFile;
+            $this->book = $book;
         }
 
         if (!isset($book)) {
             die ("No file");
         }
-        if ( isset($_GET['show']) && $_GET['show'] != "") {
-            $this->show_page = (int)$_GET['show'];
-        }
-        if ( isset($_GET['ext']) &&  $_GET['ext'] != "") {
-            $this->ext = $_GET['ext'];
-        }
-        if($this->parseEpub($book)){
+        $this->valid_epub = $this->parseEpub($book);
+
+	}
+    public function outputEpub(){
+        if($this->valid_epub){
             if ( $this->ext ) {
                 if (preg_match('#https*://.+?\..+#i', $this->ext)) {
-                    if (isset($_GET['extok']) && $_GET['extok'] == "true") {
+                    if ($this->extok) {
                         header ("Location: " . $this->ext);
                         exit;
                     } else {
@@ -71,8 +83,7 @@ class ePubReader {
         else {
             echo "<p>File '$file' is not an ePub file</p>\n";
         }
-	}
-    
+    }
     public function showPage(){
         $page = $this->getPage($this->show_page-1); ?>
 		<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN"
@@ -86,7 +97,7 @@ class ePubReader {
 		</head>
 		<body>
 		<?php 
-		$nav .= "<a class=\"home\" href=\"index.php\">My Books</a>";
+		$nav = "<a class=\"home\" href=\"index.php\">My Books</a>";
         $nav .= "\n<ul class=\"pagination\">";
 		if ($this->show_page > 1) {
 			$nav .= "<li><a href=\"" . $this->navAddr . "&show=" . "1\">&laquo;</a></li>";
@@ -133,10 +144,13 @@ class ePubReader {
 			<div id="topbar-inner">
 				<div class="nav">
 				<?php echo $nav; ?>
-				<div id="loginContainer">
-					<a id="loginButton" class="active"><span>Listen</span></a>
+				<div id="speakContainer">
+                <a id="speakNext" href="#"><span>&gt;</span></a>
+					<a id="speakButton" class="active"><span>Listen</span></a>
+                    
+                    <a id="speakPrev" href="#"><span>&lt;</span></a>
 					<div style="clear:both"></div>
-					<div id="loginBox">
+					<div id="speakBox">
 						<p hidden class="js-api-support">API not supported</p>
 						<form id="tts" action="" method="get">
 							<fieldset id="tts_body">
@@ -204,7 +218,6 @@ class ePubReader {
                     echo $this->readZipEntry($zipEntry);
                 }
             }
-
         }
         zip_close($zipArchive);
         exit;
@@ -272,14 +285,15 @@ exit;
             // Read the OPF file:
 
             $opf = new SimpleXMLElement($this->readZipEntry($this->files["$opfPath"]));
-
+            $this->book_title = $opf->metadata->children('dc', true)->title;
+            $this->book_author = $opf->metadata->children('dc', true)->creator;
+            $this->book_description = $opf->metadata->children('dc', true)->description;
             $this->epub_version = (string)$opf->attributes()->version;
             $this->spine = $opf->spine;
-
+            
             foreach ($this->spine->itemref as $itemref) {
                 $id = (string)$itemref['idref'];
                 if(isset($itemref['linear'])){
-                    //var_dump($itemref['linear']);
                     $this->epub3_toc = $id;
                 }
                 $this->spineIds[] = $id;
@@ -311,6 +325,14 @@ exit;
                     );
                 }
             }
+            foreach($opf->metadata->meta as $key => $meta){
+
+                if($meta->attributes()->name == 'cover'){
+                    $cover_id = (string)$meta->attributes()->content;
+                    $this->cover = "scanbook.php?book=" . rawurlencode($file) . "&ext=" . rawurlencode($this->filesIds[$cover_id]);
+                }
+
+            }
             $ncxId = (string)$this->spine['toc'];
             $ncxPath = $this->bookRoot . $this->filesIds[$ncxId];
             $this->ncx = $this->readZipEntry($this->files[$ncxPath]);
@@ -321,7 +343,18 @@ exit;
         }
         return FALSE;
     }
-
+    public function getBookDescription(){
+        return $this->book_description;
+    }
+    public function getBookAuthor(){
+        return $this->book_author;
+    }
+    public function getBookTitle(){
+        return $this->book_title;
+    }
+    public function getCoverUrl(){
+        return $this->cover;
+    }
     public function getPage($chapter_order){
         $chapter_data = $this->chapters[$chapter_order];
         $chapterDir = $chapter_data["dir"];
@@ -330,15 +363,31 @@ exit;
         $headStart = strpos($chapter, "<head");
         $headStart = strpos($chapter, ">", $headStart) +1;
         $headEnd = strpos($chapter, "</head", $headStart);
+        
         $head =  substr($chapter, $headStart, ($headEnd-$headStart));
-
+        
+        $head = trim(preg_replace('/\s+/', ' ', $head)); 
+        preg_match("/\<title\>(.*)\<\/title\>/i",$head,$title);
+        $head = str_replace ( $title[1] , $chapter_order . "::" . $this->getBookTitle() , $head );
+        if($chapter_order == 0){
+            $head = trim(preg_replace('/\s+/', ' ', $head)); 
+            preg_match("/\<title\>(.*)\<\/title\>/i",$head,$title);
+            $head = str_replace ( $title[1] , $this->getBookTitle() . ":: Cover", $head );
+        }elseif($this->show_toc){
+            $head = trim(preg_replace('/\s+/', ' ', $head)); 
+            preg_match("/\<title\>(.*)\<\/title\>/i",$head,$title);
+            $head = str_replace ( $title[1] , $this->getBookTitle() . ":: Table of Contents", $head );
+        } else {
+            $head = trim(preg_replace('/\s+/', ' ', $head)); 
+            preg_match("/\<title\>(.*)\<\/title\>/i",$head,$title);
+            $head = str_replace ( $title[1] , $chapter_order . "::" . $this->getBookTitle() , $head );
+        }
         if (!preg_match('#<meta.+?http-equiv\s*=\s*"Content-Type#i', $head)) {
             $head = "<meta http-equiv=\"Content-Type\" content=\"text/html; charset=utf-8\" />\n".$head;
         }
 
         $head = $this->updateCSSLinks($head, $chapterDir);
         $head = preg_replace('/<link\s[^>]*type\s*=\s*"application\/vnd.adobe-page-template\+xml\"[^>]*\/>/i','',$head);
-        
         $head = $this->updateLinks($head, $chapterDir, $this->chaptersId, $this->css);
 
         $start = strpos($chapter, "<body");
@@ -346,7 +395,6 @@ exit;
         $end = strpos($chapter, "</body", $start);
         $chapter =  substr($chapter, $start, ($end-$start));
         $page = $this->updateLinks($chapter, $chapterDir, $this->chaptersId, $this->css);
-
         if($this->epub3_toc == $itemref){
             $this->toc = $page;
         }
