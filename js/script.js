@@ -88,6 +88,7 @@ $(document).ready(function() {
             } else {
                 $("#button-resume,#button-pause,#speakPrev,#speakNext,#speakBox").hide();
                 $("#button-speak").show();
+                wave_active
             }
 
         };
@@ -151,12 +152,10 @@ $(document).ready(function() {
     var box = $('#speakBox');
     speakButton.click(function(event) {
         box.toggle();
-        $(this).toggleClass('active');
         event.preventDefault();
     });
     $('body').click(function(event) {
         if(!($(event.target).closest('#speakContainer').length > 0)) {
-            speakButton.removeClass('active');
             box.hide();
         }
     });

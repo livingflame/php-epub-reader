@@ -129,7 +129,7 @@ a.home{float:left;margin:8px 0 0 6px;}
     display:block
 }
 #speakPrev, #speakNext{display:none;}
-
+#wave_inactive{display:none;}
 /* Login Box */
 #speakBox {
     position:absolute;

@@ -28,6 +28,7 @@ class ePubReader {
 	public $spine;
 	public $ncx;
 	public $valid_epub;
+	public $auto_title;
 
 	public function __construct($book_file, $config = array()) {
         $settings = array_merge(array(
@@ -35,9 +36,11 @@ class ePubReader {
             'show_page' => null,
             'ext' => null,
             'extok' => FALSE,
+            'auto_title' => FALSE,
         ), $config);
         
         $this->show_toc = $settings['show_toc'];
+        $this->auto_title = $settings['auto_title'];
 
         if($settings['show_page']){
             $this->show_page = (int)$settings['show_page'];
@@ -146,8 +149,7 @@ class ePubReader {
 				<?php echo $nav; ?>
 				<div id="speakContainer">
                 <a id="speakNext" href="#"><span>&gt;</span></a>
-					<a id="speakButton" class="active"><span>Listen</span></a>
-                    
+					<a id="speakButton" class="active"><span>Narrate</span></a>
                     <a id="speakPrev" href="#"><span>&lt;</span></a>
 					<div style="clear:both"></div>
 					<div id="speakBox">
@@ -365,23 +367,23 @@ exit;
         $headEnd = strpos($chapter, "</head", $headStart);
         
         $head =  substr($chapter, $headStart, ($headEnd-$headStart));
-        
-        $head = trim(preg_replace('/\s+/', ' ', $head)); 
-        preg_match("/\<title\>(.*)\<\/title\>/i",$head,$title);
-        $head = str_replace ( $title[1] , $chapter_order . "::" . $this->getBookTitle() , $head );
-        if($chapter_order == 0){
-            $head = trim(preg_replace('/\s+/', ' ', $head)); 
-            preg_match("/\<title\>(.*)\<\/title\>/i",$head,$title);
-            $head = str_replace ( $title[1] , $this->getBookTitle() . ":: Cover", $head );
-        }elseif($this->show_toc){
-            $head = trim(preg_replace('/\s+/', ' ', $head)); 
-            preg_match("/\<title\>(.*)\<\/title\>/i",$head,$title);
-            $head = str_replace ( $title[1] , $this->getBookTitle() . ":: Table of Contents", $head );
-        } else {
-            $head = trim(preg_replace('/\s+/', ' ', $head)); 
-            preg_match("/\<title\>(.*)\<\/title\>/i",$head,$title);
-            $head = str_replace ( $title[1] , $chapter_order . "::" . $this->getBookTitle() , $head );
+
+        if($this->auto_title){
+            if($chapter_order == 0){
+                $head = trim(preg_replace('/\s+/', ' ', $head)); 
+                preg_match("/\<title\>(.*)\<\/title\>/i",$head,$title);
+                $head = str_replace ( $title[1] , $this->getBookTitle() . ":: Cover", $head );
+            }elseif($this->show_toc){
+                $head = trim(preg_replace('/\s+/', ' ', $head)); 
+                preg_match("/\<title\>(.*)\<\/title\>/i",$head,$title);
+                $head = str_replace ( $title[1] , $this->getBookTitle() . ":: Table of Contents", $head );
+            } else {
+                $head = trim(preg_replace('/\s+/', ' ', $head)); 
+                preg_match("/\<title\>(.*)\<\/title\>/i",$head,$title);
+                $head = str_replace ( $title[1] , $chapter_order . "::" . $this->getBookTitle() , $head );
+            }
         }
+
         if (!preg_match('#<meta.+?http-equiv\s*=\s*"Content-Type#i', $head)) {
             $head = "<meta http-equiv=\"Content-Type\" content=\"text/html; charset=utf-8\" />\n".$head;
         }
@@ -398,7 +400,6 @@ exit;
         if($this->epub3_toc == $itemref){
             $this->toc = $page;
         }
-        
         return array(
             'head' => $head,
             'content' => $page
