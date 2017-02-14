@@ -40,7 +40,7 @@ body{
 }
 .epubbody {
   margin: 0 auto;
-  padding: 64px 10;
+  padding: 64px 8px;
 }
 
 ul.pagination {
