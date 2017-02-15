@@ -482,7 +482,7 @@ exit;
                     $refFile = RelativePath::pathJoin($chapterDir, $link[1]);
                     $id = "";
                     if (strpos($refFile, "#") > 0) {
-                        $array = split("#", $refFile);
+                        $array = explode ("#", $refFile);
                         $refFile = $array[0];
                         $id = "#" . $array[1];
                     }
