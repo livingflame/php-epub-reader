@@ -88,7 +88,7 @@ class ePubReader {
         }
     }
     public function showPage(){
-        $page = $this->getPage($this->show_page-1); ?>
+        $page = $this->getPage($this->show_page-1);?>
 		<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN"
 		"http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
 		<html xmlns="http://www.w3.org/1999/xhtml">
@@ -358,51 +358,69 @@ exit;
         return $this->cover;
     }
     public function getPage($chapter_order){
-        $chapter_data = $this->chapters[$chapter_order];
-        $chapterDir = $chapter_data["dir"];
-        $chapter = $chapter_data["content"];
-        $itemref = $chapter_data["itemref"];
-        $headStart = strpos($chapter, "<head");
-        $headStart = strpos($chapter, ">", $headStart) +1;
-        $headEnd = strpos($chapter, "</head", $headStart);
-        
-        $head =  substr($chapter, $headStart, ($headEnd-$headStart));
-
-        if($this->auto_title){
-            if($chapter_order == 0){
-                $head = trim(preg_replace('/\s+/', ' ', $head)); 
-                preg_match("/\<title\>(.*)\<\/title\>/i",$head,$title);
-                $head = str_replace ( $title[1] , $this->getBookTitle() . ":: Cover", $head );
-            }elseif($this->show_toc){
-                $head = trim(preg_replace('/\s+/', ' ', $head)); 
-                preg_match("/\<title\>(.*)\<\/title\>/i",$head,$title);
-                $head = str_replace ( $title[1] , $this->getBookTitle() . ":: Table of Contents", $head );
-            } else {
-                $head = trim(preg_replace('/\s+/', ' ', $head)); 
-                preg_match("/\<title\>(.*)\<\/title\>/i",$head,$title);
-                $head = str_replace ( $title[1] , $chapter_order . "::" . $this->getBookTitle() , $head );
+        if(isset($this->chapters[$chapter_order])){
+            if($chapter_order != 0){
+                $absolute_url = $this->fullUrl( $_SERVER );
+                $file = 'tmp/' . md5($this->getBookTitle()) . '.txt';
+                file_put_contents($file, $absolute_url);
             }
-        }
+            if($chapter_order == 0 && !isset($_GET['show'])){
+                $filename = 'tmp/' . md5($this->getBookTitle()) . '.txt';
+                if (file_exists($filename)) {
+                    $location = file_get_contents($filename);
+                    header('refresh:2;url=' . $location);
+                }
+            }
+            $chapter_data = $this->chapters[$chapter_order];
+            $chapterDir = $chapter_data["dir"];
+            $chapter = $chapter_data["content"];
+            $itemref = $chapter_data["itemref"];
+            $headStart = strpos($chapter, "<head");
+            $headStart = strpos($chapter, ">", $headStart) +1;
+            $headEnd = strpos($chapter, "</head", $headStart);
+            
+            $head =  substr($chapter, $headStart, ($headEnd-$headStart));
 
-        if (!preg_match('#<meta.+?http-equiv\s*=\s*"Content-Type#i', $head)) {
-            $head = "<meta http-equiv=\"Content-Type\" content=\"text/html; charset=utf-8\" />\n".$head;
-        }
+            if($this->auto_title){
+                if($chapter_order == 0){
+                    $head = trim(preg_replace('/\s+/', ' ', $head)); 
+                    preg_match("/\<title\>(.*)\<\/title\>/i",$head,$title);
+                    $head = str_replace ( $title[1] , $this->getBookTitle() . ":: Cover", $head );
+                }elseif($this->show_toc){
+                    $head = trim(preg_replace('/\s+/', ' ', $head)); 
+                    preg_match("/\<title\>(.*)\<\/title\>/i",$head,$title);
+                    $head = str_replace ( $title[1] , $this->getBookTitle() . ":: Table of Contents", $head );
+                } else {
+                    $head = trim(preg_replace('/\s+/', ' ', $head)); 
+                    preg_match("/\<title\>(.*)\<\/title\>/i",$head,$title);
+                    $head = str_replace ( $title[1] , $chapter_order . "::" . $this->getBookTitle() , $head );
+                }
+            }
 
-        $head = $this->updateCSSLinks($head, $chapterDir);
-        $head = preg_replace('/<link\s[^>]*type\s*=\s*"application\/vnd.adobe-page-template\+xml\"[^>]*\/>/i','',$head);
-        $head = $this->updateLinks($head, $chapterDir, $this->chaptersId, $this->css);
+            if (!preg_match('#<meta.+?http-equiv\s*=\s*"Content-Type#i', $head)) {
+                $head = "<meta http-equiv=\"Content-Type\" content=\"text/html; charset=utf-8\" />\n".$head;
+            }
 
-        $start = strpos($chapter, "<body");
-        $start = strpos($chapter, ">", $start) +1;
-        $end = strpos($chapter, "</body", $start);
-        $chapter =  substr($chapter, $start, ($end-$start));
-        $page = $this->updateLinks($chapter, $chapterDir, $this->chaptersId, $this->css);
-        if($this->epub3_toc == $itemref){
-            $this->toc = $page;
+            $head = $this->updateCSSLinks($head, $chapterDir);
+            $head = preg_replace('/<link\s[^>]*type\s*=\s*"application\/vnd.adobe-page-template\+xml\"[^>]*\/>/i','',$head);
+            $head = $this->updateLinks($head, $chapterDir, $this->chaptersId, $this->css);
+
+            $start = strpos($chapter, "<body");
+            $start = strpos($chapter, ">", $start) +1;
+            $end = strpos($chapter, "</body", $start);
+            $chapter =  substr($chapter, $start, ($end-$start));
+            $page = $this->updateLinks($chapter, $chapterDir, $this->chaptersId, $this->css);
+            if($this->epub3_toc == $itemref){
+                $this->toc = $page;
+            }
+            return array(
+                'head' => $head,
+                'content' => $page
+            );
         }
         return array(
-            'head' => $head,
-            'content' => $page
+            'head' => '<title>404</title><meta http-equiv="Content-Type" content="application/xhtml+xml; charset=utf-8"/>',
+            'content' => '<div style="text-align: center; page-break-after: always;"><p>404 Page Not Found</p></div>'
         );
     }
     public function buildToc($chapterDir){
@@ -482,8 +500,10 @@ exit;
     }
     
     public function updateCSSLinks($cssData, $chapterDir) {
+        $cssData = str_replace('@page ', ".epubbody ", $cssData);
+        $cssData = str_replace('@page{', ".epubbody{", $cssData);
         preg_match_all('#url\s*\([\'\"\s]*(.+?)[\'\"\s]*\)#im', $cssData, $links, PREG_SET_ORDER);
-        
+
         $itemCount = count($links);
         for ($idx = 0; $idx < $itemCount; $idx++) {
             $link = $links[$idx];
@@ -497,4 +517,21 @@ exit;
 
         return $cssData;
     }
+    function urlOrigin( $s, $use_forwarded_host = false )
+    {
+        $ssl      = ( ! empty( $s['HTTPS'] ) && $s['HTTPS'] == 'on' );
+        $sp       = strtolower( $s['SERVER_PROTOCOL'] );
+        $protocol = substr( $sp, 0, strpos( $sp, '/' ) ) . ( ( $ssl ) ? 's' : '' );
+        $port     = $s['SERVER_PORT'];
+        $port     = ( ( ! $ssl && $port=='80' ) || ( $ssl && $port=='443' ) ) ? '' : ':'.$port;
+        $host     = ( $use_forwarded_host && isset( $s['HTTP_X_FORWARDED_HOST'] ) ) ? $s['HTTP_X_FORWARDED_HOST'] : ( isset( $s['HTTP_HOST'] ) ? $s['HTTP_HOST'] : null );
+        $host     = isset( $host ) ? $host : $s['SERVER_NAME'] . $port;
+        return $protocol . '://' . $host;
+    }
+
+    function fullUrl( $s, $use_forwarded_host = false )
+    {
+        return $this->urlOrigin( $s, $use_forwarded_host ) . $s['REQUEST_URI'];
+    }
+    
 }

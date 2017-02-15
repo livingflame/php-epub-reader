@@ -9,10 +9,14 @@
         * {margin:0;padding:0}
          body {font-family: 'Noto Sans', sans-serif;}
          h2{font-size:20px;margin:10px 0 0 10px}
+         .inner{display:inline-block;width:100%;}
         .content{
-            width:40%;
+            width:45%;
             border:1px solid #000;
-            margin:10px
+            margin:10px;
+            min-height:206px;
+            display:inline-block;
+            vertical-align:top;
         }
         .content p.right{
             margin:10px 10px 0 120px;
@@ -40,8 +44,8 @@
         </style>
     </head>
     <body>
-    <h1>Ebooks</h1>
-   
+        <h1>Ebooks</h1>
+        <div class="inner">
 		<?php
         include_once("RelativePath.php");
         include_once("ePubReader.php");
@@ -67,7 +71,7 @@
 			}
 		}
 		?>
-
+        </div>
 		<hr />
 		<p><a href="PHPEPubRead-src.zip">Source Code</a></p>
     </body>
