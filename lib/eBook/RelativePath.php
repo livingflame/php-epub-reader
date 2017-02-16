@@ -1,4 +1,5 @@
 <?php
+namespace LivingFlame\eBook;
 /**
  * Simple relative path normalizer utility.
  *

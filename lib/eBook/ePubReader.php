@@ -1,4 +1,5 @@
-<?php 
+<?php
+namespace LivingFlame\eBook;
 class ePubReader {
 	public $bookRoot;
 	public $book;
@@ -29,9 +30,11 @@ class ePubReader {
 	public $ncx;
 	public $valid_epub;
 	public $auto_title;
+	public $config = array();
 
 	public function __construct($book_file, $config = array()) {
-        $settings = array_merge(array(
+        $this->config = array_merge(array(
+            'read_url' => null,
             'show_toc' => FALSE,
             'show_page' => null,
             'ext' => null,
@@ -39,14 +42,14 @@ class ePubReader {
             'auto_title' => FALSE,
         ), $config);
         
-        $this->show_toc = $settings['show_toc'];
-        $this->auto_title = $settings['auto_title'];
+        $this->show_toc = $this->config['show_toc'];
+        $this->auto_title = $this->config['auto_title'];
 
-        if($settings['show_page']){
-            $this->show_page = (int)$settings['show_page'];
+        if($this->config['show_page']){
+            $this->show_page = (int)$this->config['show_page'];
         }
-        $this->ext = $settings['ext'];
-        $this->extok = $settings['extok'];
+        $this->ext = $this->config['ext'];
+        $this->extok = $this->config['extok'];
         
         $tempFile = rawurldecode($book_file);
         if (file_exists($tempFile) && is_file($tempFile)) {
@@ -93,14 +96,14 @@ class ePubReader {
 		"http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
 		<html xmlns="http://www.w3.org/1999/xhtml">
 		<head>
-			<?php print $page['head']; ?>
-			<link rel="stylesheet" type="text/css" href="css/style.css" />
-			<script type="text/javascript" src="js/jquery.min.js"></script>
-			<script type="text/javascript" src="js/script.js"></script>
+			<?php print $page['head']; ?> 
+			<link rel="stylesheet" type="text/css" href="<?php print $this->config['base_url']; ?>css/style.css" />
+			<script type="text/javascript" src="<?php print $this->config['base_url']; ?>js/jquery.min.js"></script>
+			<script type="text/javascript" src="<?php print $this->config['base_url']; ?>js/script.js"></script>
 		</head>
 		<body>
 		<?php 
-		$nav = "<a class=\"home\" href=\"index.php\">My Books</a>";
+		$nav = "<a class=\"home\" href=\"". $this->config['base_url'] . "\">My Books</a>";
         $nav .= "\n<ul class=\"pagination\">";
 		if ($this->show_page > 1) {
 			$nav .= "<li><a href=\"" . $this->navAddr . "&show=" . "1\">&laquo;</a></li>";
@@ -109,7 +112,7 @@ class ePubReader {
 			$nav .= "<li><span>&laquo;</span></li>";
 			$nav .= "<li><span>&lt;</span></li>";
 		}
-        
+
 		if ($this->show_page < sizeof($this->chapters)) {
 			$nav .= "<li><a href=\"" . $this->navAddr . "&show=" . ($this->show_page+1) . "\">&gt;</a></li>";
 			$nav .= "<li><a href=\"" . $this->navAddr . "&show=" . sizeof($this->chapters) . "\">&raquo;</a></li>";
@@ -127,7 +130,7 @@ class ePubReader {
 		if ($this->show_page < 1 || $this->show_page > sizeof($this->chapters)) {
 			$this->show_page = 1;
 		}
-?>
+        ?>
 		<div id="outer">
 			<div id="contain-all">
 				<div class="inner">
@@ -239,7 +242,7 @@ class ePubReader {
     <p>You are about to leave the epub reader</p>
     <p>Click on the link below if you are certain.</p>
     <p>
-        <a href="scanbook.php?extok=true&ext=<?php echo $this->ext; ?>"><?php echo htmlspecialchars($this->ext); ?> </a>
+        <a href="<?php echo $this->config['read_url']; ?>?extok=true&ext=<?php echo $this->ext; ?>"><?php echo htmlspecialchars($this->ext); ?> </a>
     </p>
 </body>
 </html>
@@ -257,7 +260,7 @@ exit;
 
         if ($name == "mimetype" && zip_entry_read($zipEntry, $size) == 'application/epub+zip') {
             $this->files[$name] = $zipEntry;
-            $this->navAddr = "scanbook.php?book=" . rawurlencode($file);
+            $this->navAddr = $this->config['read_url'] . "?book=" . rawurlencode($file);
 
             while($zipEntry = zip_read($zipArchive)) {
                 if (zip_entry_filesize($zipEntry) > 0) {
@@ -275,7 +278,7 @@ exit;
 
             $zipEntry = $this->files["META-INF/container.xml"];
             $container = $this->readZipEntry($zipEntry);
-            $xContainer = new SimpleXMLElement($container);
+            $xContainer = new \SimpleXMLElement($container);
             $opfPath = $xContainer->rootfiles->rootfile['full-path'];
             $opfType = $xContainer->rootfiles->rootfile['media-type'];
             $this->bookRoot = dirname($opfPath) . "/";
@@ -286,7 +289,7 @@ exit;
 
             // Read the OPF file:
 
-            $opf = new SimpleXMLElement($this->readZipEntry($this->files["$opfPath"]));
+            $opf = new \SimpleXMLElement($this->readZipEntry($this->files["$opfPath"]));
             $this->book_title = $opf->metadata->children('dc', true)->title;
             $this->book_author = $opf->metadata->children('dc', true)->creator;
             $this->book_description = $opf->metadata->children('dc', true)->description;
@@ -331,7 +334,7 @@ exit;
 
                 if($meta->attributes()->name == 'cover'){
                     $cover_id = (string)$meta->attributes()->content;
-                    $this->cover = "scanbook.php?book=" . rawurlencode($file) . "&ext=" . rawurlencode($this->filesIds[$cover_id]);
+                    $this->cover = $this->config['read_url'] . "?book=" . rawurlencode($file) . "&ext=" . rawurlencode($this->filesIds[$cover_id]);
                 }
 
             }
@@ -380,19 +383,15 @@ exit;
             $headEnd = strpos($chapter, "</head", $headStart);
             
             $head =  substr($chapter, $headStart, ($headEnd-$headStart));
-
+            $head = trim(preg_replace('/\s+/', ' ', $head)); 
+            preg_match("/\<title\>(.*)\<\/title\>/siU",$head,$title);
+            $page_title = $title[1];
             if($this->auto_title){
                 if($chapter_order == 0){
-                    $head = trim(preg_replace('/\s+/', ' ', $head)); 
-                    preg_match("/\<title\>(.*)\<\/title\>/i",$head,$title);
                     $head = str_replace ( $title[1] , $this->getBookTitle() . ":: Cover", $head );
                 }elseif($this->show_toc){
-                    $head = trim(preg_replace('/\s+/', ' ', $head)); 
-                    preg_match("/\<title\>(.*)\<\/title\>/i",$head,$title);
                     $head = str_replace ( $title[1] , $this->getBookTitle() . ":: Table of Contents", $head );
                 } else {
-                    $head = trim(preg_replace('/\s+/', ' ', $head)); 
-                    preg_match("/\<title\>(.*)\<\/title\>/i",$head,$title);
                     $head = str_replace ( $title[1] , $chapter_order . "::" . $this->getBookTitle() , $head );
                 }
             }
@@ -414,11 +413,13 @@ exit;
                 $this->toc = $page;
             }
             return array(
+                'title' => $page_title,
                 'head' => $head,
                 'content' => $page
             );
         }
         return array(
+            'title' => '404',
             'head' => '<title>404</title><meta http-equiv="Content-Type" content="application/xhtml+xml; charset=utf-8"/>',
             'content' => '<div style="text-align: center; page-break-after: always;"><p>404 Page Not Found</p></div>'
         );
@@ -426,7 +427,7 @@ exit;
     public function buildToc($chapterDir){
         if(!$this->toc){
             // Read the NCX file:
-            $xNcx = new SimpleXMLElement($this->ncx);
+            $xNcx = new \SimpleXMLElement($this->ncx);
             $this->toc = $this->updateLinks($this->parseNavMap($xNcx->navMap), $chapterDir, $this->chaptersId, $this->css);
         }
     }
@@ -449,10 +450,11 @@ exit;
         $nav .= $indent . "</ul>\n";
         return $nav;
     }
+
 	public function readZipEntry($zipEntry) {
         return zip_entry_read($zipEntry, zip_entry_filesize($zipEntry));
     }
-    
+
     public function updateLinks($chapter, $chapterDir, $chaptersId, $css) {
 
         preg_match_all('#\s+src\s*=\s*"(.+?)"#im', $chapter, $links, PREG_SET_ORDER);
@@ -477,7 +479,7 @@ exit;
                 $chapter = str_replace($link[0], " href=\"" . $this->navAddr  . "&show=" . $chaptersId[$link_id] . "\"", $chapter);
             } else {
                 if (preg_match('#https*://.+?\..+#i', $link[1])) {
-                    //$chapter = str_replace($link[0], " href=\"scanbook.php?ext=" . rawurlencode($link[1]) . "\"", $chapter);
+                    //$chapter = str_replace($link[0], " href=\"". $this->config['read_url'] . "?ext=" . rawurlencode($link[1]) . "\"", $chapter);
                 } else {
                     $refFile = RelativePath::pathJoin($chapterDir, $link[1]);
                     $id = "";

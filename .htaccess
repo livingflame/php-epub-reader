@@ -4,6 +4,11 @@ php_value upload_max_filesize 30M
 
 Options +FollowSymLinks
 
-AddDefaultCharset UTF-8
-AddCharset UTF-8 .html
-AddType 'text/html; charset=UTF-8' html
+# Turn on the rewrite engine
+RewriteEngine On
+
+# if you installed the script in a subdir use something like below
+# RewriteBase /subdirectory/
+
+RewriteCond $1 !^(index\.php||css|js|fonts)
+RewriteRule ^(.*)$ index.php/$1

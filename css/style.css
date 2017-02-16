@@ -164,3 +164,13 @@ fieldset#tts_body {
     margin:0;
 }
 #tts fieldset.buttons-wrapper{margin:12px 0 0 0;}
+
+.book_list{display:inline-block;width:100%;font-size:12px;}
+.book_list h2{font-size:20px;margin:10px;}
+.book_block{width:45%;border:1px solid #000;margin:10px;min-height:206px;display:inline-block;vertical-align:top;}
+.book_block div.book_info{margin-left:122px;}
+.book_block div.book_info p{padding-top:20px;text-align:justify;}
+.book_block div.book_info .book_links{margin:20px 0 0 0;}
+.book_block div.img-container{float:left;text-align:center;width:120px;}
+.book_block div.img-container a{text-decoration:none;display:inline-block;margin:10px;}
+.book_block div.img-container img{max-width:100%;max-height:100%;border-radius: 5px;border: 1px solid #ccc;vertical-align:top;}
