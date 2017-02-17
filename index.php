@@ -68,9 +68,10 @@ if(isset($url_path[0]) && $url_path[0] == 'read'){
 			if (isset($di['extension']) && strtolower($di['extension']) == "epub") {
                 $epub = new \LivingFlame\eBook\ePubReader(rawurlencode("books/" . $file),$config);
                 echo "<div class=\"book_block\">";
-                echo "<h2>".$epub->getBookTitle()."</h2>";
+                
                 echo "<div class=\"img-container\"><a href=\"".getBaseUrl(FALSE)."/read/?book=books/".urlencode($file)."\"><img src=\"".$epub->getCoverUrl()."\" /></a></div>";
                 echo "<div class=\"book_info\">";
+                echo "<h2>".$epub->getBookTitle()."</h2>";
                 $description = $epub->getBookDescription();
                 echo "<p>" . substr($description, 0, 200) .((strlen($description) > 200) ? '...' : '') . "</p>";
 				echo "<div class=\"book_links\"><a href=\"".getBaseUrl(FALSE)."/read/?book=books/".urlencode($file)."\">Read</a> or <a href=\"".getBaseUrl()."books/".urlencode($file)."\">Download</a></div>";

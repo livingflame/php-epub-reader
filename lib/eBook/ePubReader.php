@@ -107,14 +107,14 @@ class ePubReader {
         $nav .= "\n<ul class=\"pagination\">";
 		if ($this->show_page > 1) {
 			$nav .= "<li><a href=\"" . $this->navAddr . "&show=" . "1\">&laquo;</a></li>";
-			$nav .= "<li><a href=\"" . $this->navAddr . "&show=" . ($this->show_page-1) . "\">&lt;</a></li>";
+			$nav .= "<li><a href=\"" . $this->navAddr . "&show=" . ($this->show_page-1) . "\" title=\"prev_page\">&lt;</a></li>";
 		} else {
 			$nav .= "<li><span>&laquo;</span></li>";
 			$nav .= "<li><span>&lt;</span></li>";
 		}
 
 		if ($this->show_page < sizeof($this->chapters)) {
-			$nav .= "<li><a href=\"" . $this->navAddr . "&show=" . ($this->show_page+1) . "\">&gt;</a></li>";
+			$nav .= "<li><a href=\"" . $this->navAddr . "&show=" . ($this->show_page+1) . "\" title=\"next_page\">&gt;</a></li>";
 			$nav .= "<li><a href=\"" . $this->navAddr . "&show=" . sizeof($this->chapters) . "\">&raquo;</a></li>";
 		} else {
 			$nav .= "<li><span>&gt;</span></li>";

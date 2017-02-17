@@ -69,9 +69,8 @@ $(document).ready(function() {
                     logEvent('started');
                 };
                 utterance.onend = function(event){
-                    var charIndex = event.charIndex;
                     var text_length = event.utterance.text.length;
-                    if(charIndex == text_length){
+                    if(event.charIndex == text_length){
                         readParagraph(p+1);
                         logEvent('finished');
                     } else {
@@ -88,7 +87,7 @@ $(document).ready(function() {
             } else {
                 $("#button-resume,#button-pause,#speakPrev,#speakNext,#speakBox").hide();
                 $("#button-speak").show();
-                wave_active
+                $( 'a[title="next_page"' ).first().click();
             }
 
         };
