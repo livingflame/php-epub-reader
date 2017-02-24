@@ -132,11 +132,21 @@ $(document).ready(function() {
 
         $("#button-speak").click(function (e) {
             e.preventDefault();
-            $('#epubbody *').contents().filter(function() { 
-                return (this.nodeType == 3) && this.nodeValue.length > 0; 
-            }).wrap("<span class=\"tobe_read\"></span>");
+
+            $('#epubbody *').contents().each(function() { 
+                var $this = $(this);
+                if($this.closest('.tobe_read').length == 0){
+                    if($this.closest('p').length > 0){
+                        if($this.closest('p').not('.tobe_read')){
+                            $this.closest('p').addClass('tobe_read');
+                        }
+                    } else {
+                        $this.wrap("<span class=\"tobe_read\"></span>");
+                    }
+                }
+            });
             
-            $( "#epubbody" ).find('span.tobe_read').each(function( index ) {
+            $( "#epubbody" ).find('.tobe_read').each(function( index ) {
                 par[index] = $(this);
             });
             readParagraph(0);

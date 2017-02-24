@@ -1,0 +1,79 @@
+<?xml version='1.0' encoding='utf-8'?>
+<!DOCTYPE ncx PUBLIC "-//NISO//DTD ncx 2005-1//EN" 
+"http://www.daisy.org/z3986/2005/ncx-2005-1.dtd">
+<ncx xmlns="http://www.daisy.org/z3986/2005/ncx/" version="2005-1" xml:lang="eng">
+  <head>
+    <meta name="dtb:uid" content="urn:uuid:192ffbae-1793-4d9d-b0af-e4ae979a3403"/> <!-- same as in .opf -->
+    <meta name="dtb:depth" content="1"/> <!-- 1 or higher -->
+    <meta name="dtb:totalPageCount" content="0"/> <!-- must be 0 -->
+    <meta name="dtb:maxPageNumber" content="0"/> <!-- must be 0 -->
+  </head>
+  <docTitle>
+	<text>One 2 One</text>
+  </docTitle>
+  <docAuthor>
+    <text>Steve Murrell</text>
+  </docAuthor>
+  <navMap>
+    <navPoint id="uaOrs2ndJ7lwKLXphTWPf56" playOrder="1">
+      <navLabel>
+        <text>Cover</text>
+      </navLabel>
+      <content src="Text/front.xhtml"/>
+    </navPoint>
+    <navPoint id="eng7_app" playOrder="2">
+      <navLabel>
+        <text>The Right Start</text>
+      </navLabel>
+      <content src="Text/eng7_app.xhtml"/>
+    </navPoint>
+    <navPoint id="eng7_gs" playOrder="3">
+      <navLabel>
+        <text>Introduction – Getting Started</text>
+      </navLabel>
+      <content src="Text/eng7_gs.xhtml"/>
+    </navPoint>
+    <navPoint id="eng7_01" playOrder="4">
+      <navLabel>
+        <text>1. Salvation – A New Start</text>
+      </navLabel>
+      <content src="Text/eng7_01.xhtml"/>
+    </navPoint>
+    <navPoint id="eng7_02" playOrder="5">
+      <navLabel>
+        <text>2. Lordship – A New Master</text>
+      </navLabel>
+      <content src="Text/eng7_02.xhtml"/>
+    </navPoint>
+    <navPoint id="eng7_03" playOrder="6">
+      <navLabel>
+        <text>3. Repentance – A New Direction</text>
+      </navLabel>
+      <content src="Text/eng7_03.xhtml"/>
+    </navPoint>
+    <navPoint id="eng7_04" playOrder="7">
+      <navLabel>
+        <text>4. Baptism – A New Life</text>
+      </navLabel>
+      <content src="Text/eng7_04.xhtml"/>
+    </navPoint>
+    <navPoint id="eng7_05" playOrder="8">
+      <navLabel>
+        <text>5. Devotion – A New Discipline</text>
+      </navLabel>
+      <content src="Text/eng7_05.xhtml"/>
+    </navPoint>
+    <navPoint id="eng7_06" playOrder="9">
+      <navLabel>
+        <text>6. The Church – New Relationships</text>
+      </navLabel>
+      <content src="Text/eng7_06.xhtml"/>
+    </navPoint>
+    <navPoint id="eng7_07" playOrder="10">
+      <navLabel>
+		<text>7. Discipleship – A New Mission</text>
+      </navLabel>
+      <content src="Text/eng7_07.xhtml"/>
+    </navPoint>
+  </navMap>
+</ncx>

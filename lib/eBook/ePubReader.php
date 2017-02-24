@@ -188,7 +188,7 @@ class ePubReader {
 </html>
 		<?php 
     }
-    
+
     public function showCss(){
         if(isset($this->css[$this->ext])){
             $cssData = $this->css[$this->ext];
@@ -321,11 +321,15 @@ exit;
 
             $chapterNum = 1;
             foreach($this->spineIds as $order => $itemref){
+                if(!isset($this->files[$this->bookRoot . $this->filesIds[$itemref] ])){
+                    echo $this->bookRoot . $this->filesIds[$itemref] ."<br />";
+                    echo $this->book ."<br />";
+                }
                 if ($this->fileTypes[$itemref] == "application/xhtml+xml") {
                     $this->chaptersId[$this->filesIds[$itemref]] = $chapterNum++;
                     $this->chapters[] = array(
                         'dir' => dirname($this->filesIds[$itemref]),
-                        'content' => $this->readZipEntry($this->files[$this->bookRoot . $this->filesIds[$itemref]]),
+                        'content' => $this->readZipEntry($this->files[$this->bookRoot . $this->filesIds[$itemref] ]),
                         'itemref' => $itemref
                     );
                 }

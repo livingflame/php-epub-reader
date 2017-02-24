@@ -43,7 +43,7 @@ fieldset#tts_body{-moz-border-radius:3px;background:#fff;border-radius:3px;margi
 .book_block div.book_info .book_links{margin:20px 0 0;}
 .book_block div.img-container{float:left;text-align:center;width:122px;}
 .book_block div.img-container a{display:inline-block;margin:10px;text-decoration:none;width:100px;height:133px;border:1px solid #ccc;border-radius:5px;overflow:hidden;}
-.book_block div.img-container img{height:100%;max-width:100%;vertical-align:middle;border-radius:5px;}
+.book_block div.img-container img{height:100%;width:100%;vertical-align:middle;border-radius:5px;}
 p{line-height:1.25em;margin-bottom:1em;margin-top:1em;text-align:justify;text-indent:1.5em;}
 a.underlined-link,
 a.underlined-link:visited{text-decoration:underline;}

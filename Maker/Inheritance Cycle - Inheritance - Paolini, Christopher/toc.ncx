@@ -1,0 +1,537 @@
+<?xml version='1.0' encoding='utf-8'?>
+<ncx xmlns="http://www.daisy.org/z3986/2005/ncx/" version="2005-1" xml:lang="eng">
+  <head>
+    <meta content="e81ac7c6-4bd1-4cb9-a18c-fa4ffef80172" name="dtb:uid"/>
+    <meta content="2" name="dtb:depth"/>
+    <meta content="calibre (0.8.22)" name="dtb:generator"/>
+    <meta content="0" name="dtb:totalPageCount"/>
+    <meta content="0" name="dtb:maxPageNumber"/>
+  </head>
+  <docTitle>
+    <text>Inheritance</text>
+  </docTitle>
+  <navMap>
+    <navPoint class="chapter" id="6a7da84d-85f8-4d3b-a1ab-34f695a3af3d" playOrder="87">
+      <navLabel>
+        <text>Cover</text>
+      </navLabel>
+      <content src="Inheritance_split_093.html"/>
+    </navPoint>
+    <navPoint class="chapter" id="f4ca83fd-6ea2-4591-955b-c7563416b8b6" playOrder="1">
+      <navLabel>
+        <text>About the Book</text>
+      </navLabel>
+      <content src="Inheritance_split_001.html"/>
+    </navPoint>
+    <navPoint class="chapter" id="a8c19411-7ad8-400b-ad5d-bca93723d5c1" playOrder="2">
+      <navLabel>
+        <text>Map</text>
+      </navLabel>
+      <content src="Inheritance_split_002.html"/>
+    </navPoint>
+    <navPoint class="chapter" id="482a248b-3b36-475a-95e1-633b779bda4b" playOrder="3">
+      <navLabel>
+        <text>Title Page</text>
+      </navLabel>
+      <content src="Inheritance_split_004.html"/>
+    </navPoint>
+    <navPoint class="chapter" id="df243434-15a4-48de-b503-33c93d5e795e" playOrder="4">
+      <navLabel>
+        <text>Dedication</text>
+      </navLabel>
+      <content src="Inheritance_split_005.html"/>
+    </navPoint>
+    <navPoint class="chapter" id="abd37bb1-3fdd-4f38-9419-16c4ea55de32" playOrder="5">
+      <navLabel>
+        <text>In the Beginning: A History of Eragon, Eldest, and Brisingr</text>
+      </navLabel>
+      <content src="Inheritance_split_006.html"/>
+    </navPoint>
+    <navPoint class="chapter" id="483793ad-39a2-4c06-828d-671c41240bb0" playOrder="6">
+      <navLabel>
+        <text>Into the Breach</text>
+      </navLabel>
+      <content src="Inheritance_split_007.html"/>
+    </navPoint>
+    <navPoint class="chapter" id="2b646796-a0bf-42c7-8b62-92100ed470fa" playOrder="7">
+      <navLabel>
+        <text>Hammerfall</text>
+      </navLabel>
+      <content src="Inheritance_split_008.html"/>
+    </navPoint>
+    <navPoint class="chapter" id="680248bb-fb67-4de3-aa5d-dbb3b6f945a3" playOrder="8">
+      <navLabel>
+        <text>Shadows on the Horizon</text>
+      </navLabel>
+      <content src="Inheritance_split_009.html"/>
+    </navPoint>
+    <navPoint class="chapter" id="b1c20e4d-973b-4661-8f77-bfd698224a7c" playOrder="9">
+      <navLabel>
+        <text>King Cat</text>
+      </navLabel>
+      <content src="Inheritance_split_010.html"/>
+    </navPoint>
+    <navPoint class="chapter" id="85ede221-0f3a-45ea-8582-4e113f63feee" playOrder="10">
+      <navLabel>
+        <text>Aftermath</text>
+      </navLabel>
+      <content src="Inheritance_split_011.html"/>
+    </navPoint>
+    <navPoint class="chapter" id="68b679b2-a07e-4649-8a84-0b4eea1da9a2" playOrder="11">
+      <navLabel>
+        <text>Memories of the Dead</text>
+      </navLabel>
+      <content src="Inheritance_split_012.html"/>
+    </navPoint>
+    <navPoint class="chapter" id="e3eafc10-b1e5-4824-93ef-0d53cebf099e" playOrder="12">
+      <navLabel>
+        <text>What Is a Man?</text>
+      </navLabel>
+      <content src="Inheritance_split_013.html"/>
+    </navPoint>
+    <navPoint class="chapter" id="b6d9da6e-30ee-42cb-8964-efe357d4c1d2" playOrder="13">
+      <navLabel>
+        <text>The Price of Power</text>
+      </navLabel>
+      <content src="Inheritance_split_014.html"/>
+    </navPoint>
+    <navPoint class="chapter" id="ca8ebf12-3657-4689-9c82-541d0dc29c70" playOrder="14">
+      <navLabel>
+        <text>Rudely into the Light …</text>
+      </navLabel>
+      <content src="Inheritance_split_015.html"/>
+    </navPoint>
+    <navPoint class="chapter" id="faa9adfb-a836-423f-a10a-94c2f45ebf2f" playOrder="15">
+      <navLabel>
+        <text>A Cradle Song</text>
+      </navLabel>
+      <content src="Inheritance_split_016.html"/>
+    </navPoint>
+    <navPoint class="chapter" id="725d0c33-3990-422e-9700-8a253d88fe3b" playOrder="16">
+      <navLabel>
+        <text>No Rest for the Weary</text>
+      </navLabel>
+      <content src="Inheritance_split_017.html"/>
+    </navPoint>
+    <navPoint class="chapter" id="26218d97-d56e-493f-85e9-7f280902f897" playOrder="17">
+      <navLabel>
+        <text>Dancing with Swords</text>
+      </navLabel>
+      <content src="Inheritance_split_018.html"/>
+    </navPoint>
+    <navPoint class="chapter" id="52653b47-60af-4b14-a696-d0c263090ade" playOrder="18">
+      <navLabel>
+        <text>No Honor, No Glory, Only Blisters in Unfortunate Places</text>
+      </navLabel>
+      <content src="Inheritance_split_019.html"/>
+    </navPoint>
+    <navPoint class="chapter" id="134d7829-8c38-4465-b2c5-95906d4a004f" playOrder="19">
+      <navLabel>
+        <text>Mooneater</text>
+      </navLabel>
+      <content src="Inheritance_split_020.html"/>
+    </navPoint>
+    <navPoint class="chapter" id="398cd9ec-9a31-4808-bfbd-04d1c757a504" playOrder="20">
+      <navLabel>
+        <text>Rumors and Writing</text>
+      </navLabel>
+      <content src="Inheritance_split_021.html"/>
+    </navPoint>
+    <navPoint class="chapter" id="53a54f05-307c-49df-91aa-938f84483d2d" playOrder="21">
+      <navLabel>
+        <text>Aroughs</text>
+      </navLabel>
+      <content src="Inheritance_split_022.html"/>
+    </navPoint>
+    <navPoint class="chapter" id="5c75c22e-2288-451b-bd50-b2a57c828b50" playOrder="22">
+      <navLabel>
+        <text>Dras-Leona</text>
+      </navLabel>
+      <content src="Inheritance_split_023.html"/>
+    </navPoint>
+    <navPoint class="chapter" id="60bc3d12-ddc4-45dd-a4f9-7a7db14bd16b" playOrder="23">
+      <navLabel>
+        <text>A Toss of the Bones</text>
+      </navLabel>
+      <content src="Inheritance_split_024.html"/>
+    </navPoint>
+    <navPoint class="chapter" id="df3db42b-7984-418c-9366-4ea05601d90f" playOrder="24">
+      <navLabel>
+        <text>My Friend, My Enemy</text>
+      </navLabel>
+      <content src="Inheritance_split_025.html"/>
+    </navPoint>
+    <navPoint class="chapter" id="c90f54d1-d56e-4acf-a6e3-5c6abee46769" playOrder="25">
+      <navLabel>
+        <text>A Flour Made of Flame</text>
+      </navLabel>
+      <content src="Inheritance_split_026.html"/>
+    </navPoint>
+    <navPoint class="chapter" id="4a1407c6-78b2-4c0f-88e9-a270caa0ed94" playOrder="26">
+      <navLabel>
+        <text>Dust and Ashes</text>
+      </navLabel>
+      <content src="Inheritance_split_027.html"/>
+    </navPoint>
+    <navPoint class="chapter" id="02c05118-338e-4c43-9d85-ef1f7ea08914" playOrder="27">
+      <navLabel>
+        <text>Interregnum</text>
+      </navLabel>
+      <content src="Inheritance_split_028.html"/>
+    </navPoint>
+    <navPoint class="chapter" id="1e494ea0-f63a-4cb9-bdb4-58d293b77e8c" playOrder="28">
+      <navLabel>
+        <text>Thardsvergûndnzmal</text>
+      </navLabel>
+      <content src="Inheritance_split_029.html"/>
+    </navPoint>
+    <navPoint class="chapter" id="e78b7e44-3fc0-4f9c-9e31-19f328080d1d" playOrder="29">
+      <navLabel>
+        <text>The Way of Knowing</text>
+      </navLabel>
+      <content src="Inheritance_split_030.html"/>
+    </navPoint>
+    <navPoint class="chapter" id="6f952555-1519-4e66-9f02-3842fbe6d07a" playOrder="30">
+      <navLabel>
+        <text>A Heart-to-Heart</text>
+      </navLabel>
+      <content src="Inheritance_split_031.html"/>
+    </navPoint>
+    <navPoint class="chapter" id="4023a5ab-b4d8-4fe3-95f6-a19233d293d2" playOrder="31">
+      <navLabel>
+        <text>Discovery</text>
+      </navLabel>
+      <content src="Inheritance_split_032.html"/>
+    </navPoint>
+    <navPoint class="chapter" id="6786e97f-be42-40f4-ba6e-2f4ecfffbe35" playOrder="32">
+      <navLabel>
+        <text>Decisions</text>
+      </navLabel>
+      <content src="Inheritance_split_033.html"/>
+    </navPoint>
+    <navPoint class="chapter" id="8008c598-7b91-4462-9b4f-16a38c995aec" playOrder="33">
+      <navLabel>
+        <text>Under Hill and Stone</text>
+      </navLabel>
+      <content src="Inheritance_split_034.html"/>
+    </navPoint>
+    <navPoint class="chapter" id="3d631275-ac55-47e3-85f5-c3dec7cf9d82" playOrder="34">
+      <navLabel>
+        <text>To Feed a God</text>
+      </navLabel>
+      <content src="Inheritance_split_035.html"/>
+    </navPoint>
+    <navPoint class="chapter" id="80df277b-7490-4edd-999e-56f346906638" playOrder="35">
+      <navLabel>
+        <text>Infidels on the Loose</text>
+      </navLabel>
+      <content src="Inheritance_split_036.html"/>
+    </navPoint>
+    <navPoint class="chapter" id="f63555a8-53ac-4509-a4f9-f9fb35e06e9d" playOrder="36">
+      <navLabel>
+        <text>The Tolling of the Bell</text>
+      </navLabel>
+      <content src="Inheritance_split_037.html"/>
+    </navPoint>
+    <navPoint class="chapter" id="b61c33e3-6653-409e-a0f0-d1fa17647967" playOrder="37">
+      <navLabel>
+        <text>Black-Shrike-Thorn-Cave</text>
+      </navLabel>
+      <content src="Inheritance_split_038.html"/>
+    </navPoint>
+    <navPoint class="chapter" id="7b76938a-d767-474b-8dbb-4a286387b0f3" playOrder="38">
+      <navLabel>
+        <text>Hammer and Helm</text>
+      </navLabel>
+      <content src="Inheritance_split_039.html"/>
+    </navPoint>
+    <navPoint class="chapter" id="fc0a1c5c-a252-4930-845c-bd4ca95e7c01" playOrder="39">
+      <navLabel>
+        <text>And the Walls Fell …</text>
+      </navLabel>
+      <content src="Inheritance_split_040.html"/>
+    </navPoint>
+    <navPoint class="chapter" id="7a37b540-55e6-4945-b5d0-cf83d9dc14eb" playOrder="40">
+      <navLabel>
+        <text>By the Banks of Lake Leona</text>
+      </navLabel>
+      <content src="Inheritance_split_041.html"/>
+    </navPoint>
+    <navPoint class="chapter" id="aeb4b1a7-906e-4661-a4a7-35b89778ca74" playOrder="41">
+      <navLabel>
+        <text>The Word of a Rider</text>
+      </navLabel>
+      <content src="Inheritance_split_042.html"/>
+    </navPoint>
+    <navPoint class="chapter" id="8c5e9026-aa95-41d8-8448-79266644c168" playOrder="42">
+      <navLabel>
+        <text>Conclave of Kings</text>
+      </navLabel>
+      <content src="Inheritance_split_043.html"/>
+    </navPoint>
+    <navPoint class="chapter" id="69cf5cdf-62c5-4c24-8aa5-1dce6d2c3f39" playOrder="43">
+      <navLabel>
+        <text>A Maze Without End</text>
+      </navLabel>
+      <content src="Inheritance_split_044.html"/>
+    </navPoint>
+    <navPoint class="chapter" id="8a602e7d-903c-486c-922c-c9e65bd4826b" playOrder="44">
+      <navLabel>
+        <text>Fragments, Half-Seen and Indistinct</text>
+      </navLabel>
+      <content src="Inheritance_split_045.html"/>
+    </navPoint>
+    <navPoint class="chapter" id="e743bd4c-2c96-40dc-83cd-d35311f1bd46" playOrder="45">
+      <navLabel>
+        <text>Questions Unanswered</text>
+      </navLabel>
+      <content src="Inheritance_split_046.html"/>
+    </navPoint>
+    <navPoint class="chapter" id="8a11b4f5-eef0-4b10-a63b-fe32646ac939" playOrder="46">
+      <navLabel>
+        <text>Departure</text>
+      </navLabel>
+      <content src="Inheritance_split_047.html"/>
+    </navPoint>
+    <navPoint class="chapter" id="6ce3db6f-1259-4744-b84d-f2d7aec6712e" playOrder="47">
+      <navLabel>
+        <text>The Torment of Uncertainty</text>
+      </navLabel>
+      <content src="Inheritance_split_048.html"/>
+    </navPoint>
+    <navPoint class="chapter" id="3ff938f8-0fa5-4e95-8bf9-76e476814da2" playOrder="48">
+      <navLabel>
+        <text>The Hall of the Soothsayer</text>
+      </navLabel>
+      <content src="Inheritance_split_049.html"/>
+    </navPoint>
+    <navPoint class="chapter" id="3c6ae14e-ace2-4a6d-b433-c57ea3230363" playOrder="49">
+      <navLabel>
+        <text>On the Wings of a Dragon</text>
+      </navLabel>
+      <content src="Inheritance_split_050.html"/>
+    </navPoint>
+    <navPoint class="chapter" id="f2b8359e-0c29-4041-8f10-b8ef3c265a54" playOrder="50">
+      <navLabel>
+        <text>The Sound of His Voice, the Touch of His Hand</text>
+      </navLabel>
+      <content src="Inheritance_split_051.html"/>
+    </navPoint>
+    <navPoint class="chapter" id="bb207e4a-1fc9-4f6f-8072-f499cf8aecbe" playOrder="51">
+      <navLabel>
+        <text>Small Rebellions</text>
+      </navLabel>
+      <content src="Inheritance_split_052.html"/>
+    </navPoint>
+    <navPoint class="chapter" id="6bc64001-c032-402a-a07a-e74b12ba748e" playOrder="52">
+      <navLabel>
+        <text>A Crown of Ice and Snow</text>
+      </navLabel>
+      <content src="Inheritance_split_053.html"/>
+    </navPoint>
+    <navPoint class="chapter" id="943d0748-9cba-442d-8166-33c0326fe64b" playOrder="53">
+      <navLabel>
+        <text>Burrow Grubs</text>
+      </navLabel>
+      <content src="Inheritance_split_054.html"/>
+    </navPoint>
+    <navPoint class="chapter" id="d2183273-219f-466b-8c00-c5932236ea79" playOrder="54">
+      <navLabel>
+        <text>Amid the Ruins</text>
+      </navLabel>
+      <content src="Inheritance_split_055.html"/>
+    </navPoint>
+    <navPoint class="chapter" id="b619d092-e4ad-4e44-b218-9653a3d3db6a" playOrder="55">
+      <navLabel>
+        <text>Snalglí for Two</text>
+      </navLabel>
+      <content src="Inheritance_split_056.html"/>
+    </navPoint>
+    <navPoint class="chapter" id="d46c01c9-b456-4749-8087-8b7b37f2944f" playOrder="56">
+      <navLabel>
+        <text>The Rock of Kuthian</text>
+      </navLabel>
+      <content src="Inheritance_split_057.html"/>
+    </navPoint>
+    <navPoint class="chapter" id="90162422-ffc3-4130-ad5e-01540bcc64e0" playOrder="57">
+      <navLabel>
+        <text>And All the World a Dream</text>
+      </navLabel>
+      <content src="Inheritance_split_058.html"/>
+    </navPoint>
+    <navPoint class="chapter" id="8c74aefb-92b8-4a67-bc4a-b7fe8013e7b4" playOrder="58">
+      <navLabel>
+        <text>A Question of Character</text>
+      </navLabel>
+      <content src="Inheritance_split_059.html"/>
+    </navPoint>
+    <navPoint class="chapter" id="4e6ea8a0-2566-426a-8e48-3a4075b0f3c9" playOrder="59">
+      <navLabel>
+        <text>The Vault of Souls</text>
+      </navLabel>
+      <content src="Inheritance_split_060.html"/>
+    </navPoint>
+    <navPoint class="chapter" id="b6efa266-53bd-43f5-95fc-843c1b67e29b" playOrder="60">
+      <navLabel>
+        <text>Lacuna, Part the First</text>
+      </navLabel>
+      <content src="Inheritance_split_061.html"/>
+    </navPoint>
+    <navPoint class="chapter" id="03d96182-ca46-490f-b22b-bb10eee1ba62" playOrder="61">
+      <navLabel>
+        <text>Lacuna, Part the Second</text>
+      </navLabel>
+      <content src="Inheritance_split_062.html"/>
+    </navPoint>
+    <navPoint class="chapter" id="22c24cb6-b364-4c13-928e-de73847a7f61" playOrder="62">
+      <navLabel>
+        <text>Return</text>
+      </navLabel>
+      <content src="Inheritance_split_063.html"/>
+    </navPoint>
+    <navPoint class="chapter" id="a788b41f-c807-47a4-8145-5fd931532ed9" playOrder="63">
+      <navLabel>
+        <text>The City of Sorrows</text>
+      </navLabel>
+      <content src="Inheritance_split_064.html"/>
+    </navPoint>
+    <navPoint class="chapter" id="009eea7c-7bd0-4dbe-8be2-5b8108f05d9c" playOrder="64">
+      <navLabel>
+        <text>War Council</text>
+      </navLabel>
+      <content src="Inheritance_split_065.html"/>
+    </navPoint>
+    <navPoint class="chapter" id="2fbbe631-5d32-4730-ac26-5bc2f7d18229" playOrder="65">
+      <navLabel>
+        <text>A Matter of Duty</text>
+      </navLabel>
+      <content src="Inheritance_split_066.html"/>
+    </navPoint>
+    <navPoint class="chapter" id="e6aac5fb-e0f0-4463-940c-c3640ece3332" playOrder="66">
+      <navLabel>
+        <text>Fire in the Night</text>
+      </navLabel>
+      <content src="Inheritance_split_067.html"/>
+    </navPoint>
+    <navPoint class="chapter" id="483f5ef9-7b75-4b9e-83a3-f467888a80be" playOrder="67">
+      <navLabel>
+        <text>Over the Wall and into the Maw</text>
+      </navLabel>
+      <content src="Inheritance_split_068.html"/>
+    </navPoint>
+    <navPoint class="chapter" id="ee4c6cfc-5c3d-4248-b52f-d99683699c20" playOrder="68">
+      <navLabel>
+        <text>The Storm Breaks</text>
+      </navLabel>
+      <content src="Inheritance_split_069.html"/>
+    </navPoint>
+    <navPoint class="chapter" id="1326b701-25ac-4780-81c4-9046cd3dfe11" playOrder="69">
+      <navLabel>
+        <text>That Which Does Not Kill …</text>
+      </navLabel>
+      <content src="Inheritance_split_070.html"/>
+    </navPoint>
+    <navPoint class="chapter" id="e7c15cbd-74b8-4d3d-9f10-2a673163cb63" playOrder="70">
+      <navLabel>
+        <text>The Heart of the Fray</text>
+      </navLabel>
+      <content src="Inheritance_split_071.html"/>
+    </navPoint>
+    <navPoint class="chapter" id="94d61cec-2be3-47d0-93eb-4a627cbf9192" playOrder="71">
+      <navLabel>
+        <text>The Name of All Names</text>
+      </navLabel>
+      <content src="Inheritance_split_072.html"/>
+    </navPoint>
+    <navPoint class="chapter" id="3fdafd40-2af4-4010-b778-0f65f59ff2bf" playOrder="72">
+      <navLabel>
+        <text>Muscle Against Metal</text>
+      </navLabel>
+      <content src="Inheritance_split_073.html"/>
+    </navPoint>
+    <navPoint class="chapter" id="79c98ef1-7297-40e0-b415-7fa5608a3446" playOrder="73">
+      <navLabel>
+        <text>The Gift of Knowledge</text>
+      </navLabel>
+      <content src="Inheritance_split_074.html"/>
+    </navPoint>
+    <navPoint class="chapter" id="d10bd08f-fe98-44e3-b425-2097b2ade092" playOrder="74">
+      <navLabel>
+        <text>Death Throes</text>
+      </navLabel>
+      <content src="Inheritance_split_075.html"/>
+    </navPoint>
+    <navPoint class="chapter" id="13aa4fea-782f-49d5-9e29-78941fa7b37a" playOrder="75">
+      <navLabel>
+        <text>A Sea of Nettles</text>
+      </navLabel>
+      <content src="Inheritance_split_076.html"/>
+    </navPoint>
+    <navPoint class="chapter" id="9d6f9769-f486-4d5a-9813-47210c7a0d89" playOrder="76">
+      <navLabel>
+        <text>Heir to the Empire</text>
+      </navLabel>
+      <content src="Inheritance_split_077.html"/>
+    </navPoint>
+    <navPoint class="chapter" id="67745233-4b27-4800-9f58-92e7715d9c59" playOrder="77">
+      <navLabel>
+        <text>A Fitting Epitaph</text>
+      </navLabel>
+      <content src="Inheritance_split_078.html"/>
+    </navPoint>
+    <navPoint class="chapter" id="e92a07cd-daf1-4d14-8e62-f74125874b84" playOrder="78">
+      <navLabel>
+        <text>Pieces on a Board</text>
+      </navLabel>
+      <content src="Inheritance_split_079.html"/>
+    </navPoint>
+    <navPoint class="chapter" id="65975655-03b8-429c-ade4-b5d68106315a" playOrder="79">
+      <navLabel>
+        <text>Fírnen</text>
+      </navLabel>
+      <content src="Inheritance_split_080.html"/>
+    </navPoint>
+    <navPoint class="chapter" id="efcdcbb7-254e-4307-8bd6-cae9f72fbf7a" playOrder="80">
+      <navLabel>
+        <text>A Man of Conscience</text>
+      </navLabel>
+      <content src="Inheritance_split_081.html"/>
+    </navPoint>
+    <navPoint class="chapter" id="536a9efc-a5cd-4c01-8c78-bccfd6a1e2d2" playOrder="81">
+      <navLabel>
+        <text>Blood Price</text>
+      </navLabel>
+      <content src="Inheritance_split_082.html"/>
+    </navPoint>
+    <navPoint class="chapter" id="5246efc1-fd01-4121-b371-e23b6cb90a1a" playOrder="82">
+      <navLabel>
+        <text>Promises, New and Old</text>
+      </navLabel>
+      <content src="Inheritance_split_083.html"/>
+    </navPoint>
+    <navPoint class="chapter" id="d28b67f1-a779-4c34-8eb7-c33457373cea" playOrder="83">
+      <navLabel>
+        <text>Leave-Taking</text>
+      </navLabel>
+      <content src="Inheritance_split_084.html"/>
+    </navPoint>
+    <navPoint class="chapter" id="98d10254-8090-4afb-b10c-2ec345df2c5f" playOrder="84">
+      <navLabel>
+        <text>Pronunciation Guide and Glossary</text>
+      </navLabel>
+      <content src="Inheritance_split_086.html"/>
+    </navPoint>
+    <navPoint class="chapter" id="062b3a64-ebe3-45d2-bc2d-20fa68099605" playOrder="85">
+      <navLabel>
+        <text>Acknowledgments</text>
+      </navLabel>
+      <content src="Inheritance_split_091.html"/>
+    </navPoint>
+    <navPoint class="chapter" id="57bc4478-58ba-4fb1-b626-b369fdb7b130" playOrder="86">
+      <navLabel>
+        <text>Copyright</text>
+      </navLabel>
+      <content src="Inheritance_split_092.html"/>
+    </navPoint>
+  </navMap>
+</ncx>

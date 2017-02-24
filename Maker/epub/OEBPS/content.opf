@@ -1,0 +1,82 @@
+<?xml version='1.0' encoding='utf-8'?>
+<package xmlns="http://www.idpf.org/2007/opf" 
+         version="3.0" 
+         xml:lang="en" 
+         unique-identifier="pub-id">
+  <metadata xmlns:dc="http://purl.org/dc/elements/1.1/">
+    <meta property="dcterms:modified">2016-01-19T00:00:00Z</meta>
+    <meta content="front_cover001" name="cover"/>
+    <dc:identifier id="pub-id">urn:uuid:192ffbae-1793-4d9d-b0af-e4ae979a3403</dc:identifier>
+    <meta refines="#pub-id" property="identifier-type" scheme="xsd:string">15</meta>
+    <dc:language>en-US</dc:language>
+    <dc:title id="title">One 2 One</dc:title>
+    <dc:description>ONE 2 ONE discusses in simple language the basic yet fundamental foundations of following Jesus. It is meant to be shared in a one-on-one setting, one chapter at a time. It is a practical walk-through to help new believers take “baby steps” in their new-found relationship with God.</dc:description>
+    <dc:creator id="creator">Steve Murrell</dc:creator>
+    <meta refines="#creator" property="file-as">Murrell, Steve</meta>
+    <meta refines="#creator" property="role" scheme="marc:relators">aut</meta>
+    <dc:publisher>EVERY NATION PRODUCTIONS</dc:publisher>
+    <dc:date>2015</dc:date>
+  </metadata>
+  <manifest>
+    <item id="cover" href="Text/front.xhtml" media-type="application/xhtml+xml"/>
+    <item id="titlepage_001" href="Text/titlepage_001.xhtml" media-type="application/xhtml+xml"/>
+    <item id="titlepage_002" href="Text/titlepage_002.xhtml" media-type="application/xhtml+xml"/>
+    <item id="id532a" href="Text/about_o2o.xhtml" media-type="application/xhtml+xml"/>
+    <item id="id532b" href="Text/about_victory.xhtml" media-type="application/xhtml+xml"/>
+    <item id="id532c" href="Text/about_every_nation.xhtml" media-type="application/xhtml+xml"/>
+    <item id="id532d" href="Text/about_the_author.xhtml" media-type="application/xhtml+xml"/>
+    <item id="id531" href="Text/eng7_app.xhtml" media-type="application/xhtml+xml"/>
+	<item id="id523" href="Text/eng7_gs.xhtml" media-type="application/xhtml+xml"/>
+    <item id="id530" href="Text/eng7_01.xhtml" media-type="application/xhtml+xml"/>
+    <item id="id529" href="Text/eng7_02.xhtml" media-type="application/xhtml+xml"/>
+    <item id="id528" href="Text/eng7_03.xhtml" media-type="application/xhtml+xml"/>
+    <item id="id527" href="Text/eng7_04.xhtml" media-type="application/xhtml+xml"/>
+    <item id="id526" href="Text/eng7_05.xhtml" media-type="application/xhtml+xml"/>
+    <item id="id525" href="Text/eng7_06.xhtml" media-type="application/xhtml+xml"/>
+    <item id="id524" href="Text/eng7_07.xhtml" media-type="application/xhtml+xml"/>
+    <item id="back_cover001" href="Text/back_cover001.xhtml" media-type="application/xhtml+xml"/>
+    <item id="back_cover002" href="Text/back_cover002.xhtml" media-type="application/xhtml+xml"/>
+    <item id="ncx" href="toc.ncx" media-type="application/x-dtbncx+xml"/>
+    <item id="toc" href="Text/toc.xhtml" properties="nav" media-type="application/xhtml+xml"/>
+    <item id="css" href="Styles/style.css" media-type="text/css"/>
+    <item id="page-template.xpgt" href="Styles/page-template.xpgt" media-type="application/vnd.adobe-page-template+xml"/>
+    <item id="enlogo" href="Images/enlogo.png" media-type="image/png"/>
+    <item id="vlogo" href="Images/vlogo.png" media-type="image/png"/>
+    <item id="front_cover001" href="Images/front_cover001.jpg" media-type="image/jpeg"/>
+    <item id="front_cover002" href="Images/front_cover002.jpg" media-type="image/jpeg"/>
+    <item id="front_cover003" href="Images/front_cover003.jpg" media-type="image/jpeg"/>
+    <item id="back_cover001_image" href="Images/back_cover001.jpg" media-type="image/jpeg"/>
+    <item id="back_cover002_image" href="Images/back_cover002.jpg" media-type="image/jpeg"/>
+    <item id="author" href="Images/steve_murrell.jpg" media-type="image/jpeg"/>
+    <item id="epub.embedded.font.7" href="Fonts/MinionPro-Bold.ttf" media-type="application/vnd.ms-opentype"/>
+    <item id="epub.embedded.font.8" href="Fonts/MinionPro-It.ttf" media-type="application/vnd.ms-opentype"/>
+    <item id="epub.embedded.font.9" href="Fonts/MinionPro-Regular.ttf" media-type="application/vnd.ms-opentype"/>
+    <item id="epub.embedded.font.10" href="Fonts/MyriadPro-Bold.ttf" media-type="application/vnd.ms-opentype"/>
+    <item id="epub.embedded.font.11" href="Fonts/MyriadPro-It.ttf" media-type="application/vnd.ms-opentype"/>
+    <item id="epub.embedded.font.12" href="Fonts/MyriadPro-Regular.ttf" media-type="application/vnd.ms-opentype"/>
+  </manifest>
+  <spine toc="ncx">
+    <itemref idref="cover"/>
+    <itemref idref="titlepage_001"/>
+    <itemref idref="titlepage_002"/>
+    <itemref idref="id532a"/>
+    <itemref idref="toc" linear="yes"/>
+    <itemref idref="id531"/>
+	<itemref idref="id523"/>
+    <itemref idref="id530"/>
+    <itemref idref="id529"/>
+    <itemref idref="id528"/>
+    <itemref idref="id527"/>
+    <itemref idref="id526"/>
+    <itemref idref="id525"/>
+    <itemref idref="id524"/>
+    <itemref idref="back_cover001"/>
+    <itemref idref="id532b"/>
+    <itemref idref="id532c"/>
+    <itemref idref="id532d"/>
+    <itemref idref="back_cover002"/>
+  </spine>
+  <guide>
+    <reference href="Text/front.xhtml" title="Cover" type="cover"/>
+  </guide>
+</package>

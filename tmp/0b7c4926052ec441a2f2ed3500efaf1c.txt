@@ -1,0 +1,1 @@
+http://webdevelopment.com/git/php-epub-reader/index.php/read/?book=books%2FI%20Shall%20Seal%20the%20Heavens_C01-1239.epub&show=2&showToc=true
