@@ -28,11 +28,12 @@ class ePubReader {
 	public $spineIds = array();
 	public $spine;
 	public $ncx;
-	public $valid_epub;
+	public $valid_epub = FALSE;
 	public $auto_title;
 	public $config = array();
+	public $edit;
 
-	public function __construct($book_file, $config = array()) {
+	public function __construct($book_file = null, $config = array()) {
         $this->config = array_merge(array(
             'read_url' => null,
             'show_toc' => FALSE,
@@ -40,8 +41,10 @@ class ePubReader {
             'ext' => null,
             'extok' => FALSE,
             'auto_title' => FALSE,
+            'edit' => FALSE,
         ), $config);
         
+        $this->edit = $this->config['edit'];
         $this->show_toc = $this->config['show_toc'];
         $this->auto_title = $this->config['auto_title'];
 
@@ -50,30 +53,26 @@ class ePubReader {
         }
         $this->ext = $this->config['ext'];
         $this->extok = $this->config['extok'];
-        
-        $tempFile = rawurldecode($book_file);
-        if (file_exists($tempFile) && is_file($tempFile)) {
-            $book = $tempFile;
-            $this->book = $book;
+        if($book_file !== NULL){
+            $this->book = rawurldecode($book_file);
+            if (file_exists($this->book) && is_file($this->book)) {
+                $this->valid_epub = $this->parseEpub($this->book);
+            } else {
+                die ("No file");
+            }
         }
-
-        if (!isset($book)) {
-            die ("No file");
-        }
-        $this->valid_epub = $this->parseEpub($book);
-
 	}
     public function outputEpub(){
-        if($this->valid_epub){
-            if ( $this->ext ) {
-                if (preg_match('#https*://.+?\..+#i', $this->ext)) {
-                    if ($this->extok) {
-                        header ("Location: " . $this->ext);
-                        exit;
-                    } else {
-                        $this->askRedirect();
-                    }
+        if ( $this->ext ) {
+            if (preg_match('#https*://.+?\..+#i', $this->ext)) {
+                if ($this->extok) {
+                    header ("Location: " . $this->ext);
+                    exit;
                 } else {
+                    $this->askRedirect();
+                }
+            } else {
+                if($this->valid_epub){
                     $refId = $this->fileLocations[$this->ext];
                     $refType = $this->fileTypes[$refId];
                      if (isset($this->css[$this->ext])) {
@@ -81,22 +80,34 @@ class ePubReader {
                     } else {
                         $this->outputFile($refType);
                     }
+                } else {
+                    echo "<p>File '$this->book' is not an ePub file</p>\n";
+                }
+            }
+        } else{
+            if($this->valid_epub){
+                if($this->edit !== FALSE) {
+                    $this->editPage();
+                } else {
+                    $this->showPage();
                 }
             } else {
-                $this->showPage();
+                echo "<p>File '$this->book' is not an ePub file</p>\n";
             }
         }
-        else {
-            echo "<p>File '$file' is not an ePub file</p>\n";
-        }
+        
     }
     public function showPage(){
         $page = $this->getPage($this->show_page-1);?>
-		<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN"
-		"http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
-		<html xmlns="http://www.w3.org/1999/xhtml">
+		<!DOCTYPE html>
+		<html>
 		<head>
-			<?php print $page['head']; ?> 
+            <meta http-equiv="X-UA-Compatible" content="IE=edge">
+            <meta name="viewport" content="width=device-width, initial-scale=1">
+            <?php 
+            $head = $this->updateCSSLinks($page['head'], $page['chapter_dir']);
+            echo $this->updateLinks($head, $page['chapter_dir'], $this->chaptersId, $this->css); 
+            ?>
 			<link rel="stylesheet" type="text/css" href="<?php print $this->config['base_url']; ?>css/style.css" />
 			<script type="text/javascript" src="<?php print $this->config['base_url']; ?>js/jquery.min.js"></script>
 			<script type="text/javascript" src="<?php print $this->config['base_url']; ?>js/script.js"></script>
@@ -121,12 +132,13 @@ class ePubReader {
 			$nav .= "<li><span>&raquo;</span></li>";
 		}
         $nav .= "</ul>";
-
+        
         if($this->show_toc){
             $nav .= " <a class=\"toc\" href=\"" . $this->navAddr . "&show=" . $this->show_page . "\">Back</a>";
         } else {
             $nav .= " <a class=\"toc\" href=\"" . $this->navAddr . "&show=" . $this->show_page . "&showToc=true" . "\">Table of Contents</a>";
         }
+        $nav .= " <a class=\"edit\" href=\"" . $this->navAddr . "&show=" . $this->show_page . "&edit=true\">Edit</a>";
 		if ($this->show_page < 1 || $this->show_page > sizeof($this->chapters)) {
 			$this->show_page = 1;
 		}
@@ -139,7 +151,7 @@ class ePubReader {
 					if ($this->show_toc) {
 						echo $this->toc;
 					} else {
-						echo $page['content'];;
+                        echo $this->updateLinks($page['content'], $page['chapter_dir'], $this->chaptersId, $this->css);
 					}
 					?>
 					</div>
@@ -180,6 +192,110 @@ class ePubReader {
 						</form>
 					</div>
 				</div>
+				</div>
+			</div>
+		</div>
+		<div id="footer"><div id="footer-inner"><div class="nav"><?php echo $nav; ?></div></div></div>
+	</body>
+</html>
+		<?php 
+    }
+    public function editPage(){
+        $page = $this->getPage($this->show_page-1);?>
+		<!DOCTYPE html>
+		<html>
+		<head>
+            <meta http-equiv="X-UA-Compatible" content="IE=edge">
+            <meta name="viewport" content="width=device-width, initial-scale=1">
+            <?php 
+            $head = $this->updateCSSLinks($page['head'], $page['chapter_dir']);
+            echo $this->updateLinks($head, $page['chapter_dir'], $this->chaptersId, $this->css); 
+            ?>
+			<link rel="stylesheet" type="text/css" href="<?php print $this->config['base_url']; ?>css/style.css" />
+			<script type="text/javascript" src="<?php print $this->config['base_url']; ?>js/jquery.min.js"></script>
+			<script type="text/javascript" src="<?php print $this->config['base_url']; ?>js/script.js"></script>
+			<script>
+            $(document).ready(function(){
+              var txt = $('#edit_page'),
+                hiddenDiv = $(document.createElement('div')),
+                content = null;
+
+                txt.addClass('txtstuff');
+                hiddenDiv.addClass('hiddendiv common');
+
+                $('body').append(hiddenDiv);
+
+                txt.on('keyup', function () {
+                    content = $(this).val();
+                    content = content.replace(/\n/g, '<br>');
+                    hiddenDiv.html(content + '<br class="lbr">');
+
+                    $(this).css('height', hiddenDiv.height());
+                    $(this).css('width', hiddenDiv.width());
+                });
+                txt.trigger('keyup');
+                $( window ).resize(function() {
+                    txt.trigger('keyup');
+                });
+            });
+            
+            
+            </script>
+			
+		</head>
+		<body>
+		<?php 
+		$nav = "<a class=\"home\" href=\"". $this->config['base_url'] . "\">My Books</a>";
+        $nav .= "\n<ul class=\"pagination\">";
+		if ($this->show_page > 1) {
+			$nav .= "<li><a href=\"" . $this->navAddr . "&show=" . "1&edit=true\">&laquo;</a></li>";
+			$nav .= "<li><a href=\"" . $this->navAddr . "&show=" . ($this->show_page-1) . "&edit=true\" title=\"prev_page\">&lt;</a></li>";
+		} else {
+			$nav .= "<li><span>&laquo;</span></li>";
+			$nav .= "<li><span>&lt;</span></li>";
+		}
+
+		if ($this->show_page < sizeof($this->chapters)) {
+			$nav .= "<li><a href=\"" . $this->navAddr . "&show=" . ($this->show_page+1) . "&edit=true\" title=\"next_page\">&gt;</a></li>";
+			$nav .= "<li><a href=\"" . $this->navAddr . "&show=" . sizeof($this->chapters) . "&edit=true\">&raquo;</a></li>";
+		} else {
+			$nav .= "<li><span>&gt;</span></li>";
+			$nav .= "<li><span>&raquo;</span></li>";
+		}
+        $nav .= "</ul>";
+
+        if($this->show_toc){
+            $nav .= " <a class=\"toc\" href=\"" . $this->navAddr . "&show=" . $this->show_page . "\">Back</a>";
+        } else {
+            $nav .= " <a class=\"toc\" href=\"" . $this->navAddr . "&show=" . $this->show_page . "&showToc=true" . "\">Table of Contents</a>";
+        }
+        $nav .= " <a class=\"read\" href=\"" . $this->navAddr . "&show=" . $this->show_page . "\">read</a>";
+		if ($this->show_page < 1 || $this->show_page > sizeof($this->chapters)) {
+			$this->show_page = 1;
+		}
+        ?>
+		<div id="outer">
+			<div id="contain-all">
+				<div class="inner">
+					<div class="epubbody" id="epubbody">
+					<?php if ($this->show_toc) {
+						echo $this->toc;
+					} else { ?>
+                        <input type="text" id="edit_title" value="<?php echo $page['title']; ?>" />
+                        <textarea id="edit_page"><?php 
+                        $converter = new \League\HTMLToMarkdown\HtmlConverter(array('header_style'=>'atx'));
+                        $markdown = $converter->convert($page['content']);
+                        echo $markdown;
+                        ?></textarea>						
+					<?php } ?>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div id="top-bar">
+			<div id="topbar-inner">
+				<div class="nav">
+				<?php echo $nav; ?>
 				</div>
 			</div>
 		</div>
@@ -229,11 +345,10 @@ class ePubReader {
     }
 
     public function askRedirect(){ ?>
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN"
-   "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml">
+<!DOCTYPE html>
+<html>
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta charset="UTF-8">
 <link rel="stylesheet" type="text/css" href="style.css" />
 <title>Redirection alert</title>
 </head>
@@ -288,7 +403,10 @@ exit;
 
 
             // Read the OPF file:
-
+                if(!isset($this->files["$opfPath"])){
+                    echo $this->files["$opfPath"] ."<br />";
+                    echo $this->book ."<br />";
+                }
             $opf = new \SimpleXMLElement($this->readZipEntry($this->files["$opfPath"]));
             $this->book_title = $opf->metadata->children('dc', true)->title;
             $this->book_author = $opf->metadata->children('dc', true)->creator;
@@ -321,10 +439,7 @@ exit;
 
             $chapterNum = 1;
             foreach($this->spineIds as $order => $itemref){
-                if(!isset($this->files[$this->bookRoot . $this->filesIds[$itemref] ])){
-                    echo $this->bookRoot . $this->filesIds[$itemref] ."<br />";
-                    echo $this->book ."<br />";
-                }
+
                 if ($this->fileTypes[$itemref] == "application/xhtml+xml") {
                     $this->chaptersId[$this->filesIds[$itemref]] = $chapterNum++;
                     $this->chapters[] = array(
@@ -346,8 +461,8 @@ exit;
             $ncxPath = $this->bookRoot . $this->filesIds[$ncxId];
             $this->ncx = $this->readZipEntry($this->files[$ncxPath]);
             $this->buildToc($chapterDir);
-
             zip_close($zipArchive);
+
             return TRUE;
         }
         return FALSE;
@@ -366,7 +481,7 @@ exit;
     }
     public function getPage($chapter_order){
         if(isset($this->chapters[$chapter_order])){
-            if($chapter_order != 0){
+            if($chapter_order != 0 && $this->edit === FALSE && $this->show_toc){
                 $absolute_url = $this->fullUrl( $_SERVER );
                 $file = 'tmp/' . md5($this->getBookTitle()) . '.txt';
                 file_put_contents($file, $absolute_url);
@@ -378,10 +493,12 @@ exit;
                     header('refresh:2;url=' . $location);
                 }
             }
+
             $chapter_data = $this->chapters[$chapter_order];
             $chapterDir = $chapter_data["dir"];
             $chapter = $chapter_data["content"];
             $itemref = $chapter_data["itemref"];
+
             $headStart = strpos($chapter, "<head");
             $headStart = strpos($chapter, ">", $headStart) +1;
             $headEnd = strpos($chapter, "</head", $headStart);
@@ -404,26 +521,28 @@ exit;
                 $head = "<meta http-equiv=\"Content-Type\" content=\"text/html; charset=utf-8\" />\n".$head;
             }
 
-            $head = $this->updateCSSLinks($head, $chapterDir);
+           
             $head = preg_replace('/<link\s[^>]*type\s*=\s*"application\/vnd.adobe-page-template\+xml\"[^>]*\/>/i','',$head);
-            $head = $this->updateLinks($head, $chapterDir, $this->chaptersId, $this->css);
-
+            
             $start = strpos($chapter, "<body");
             $start = strpos($chapter, ">", $start) +1;
             $end = strpos($chapter, "</body", $start);
             $chapter =  substr($chapter, $start, ($end-$start));
-            $page = $this->updateLinks($chapter, $chapterDir, $this->chaptersId, $this->css);
+
             if($this->epub3_toc == $itemref){
-                $this->toc = $page;
+                $this->toc = $this->updateLinks($chapter, $chapterDir, $this->chaptersId, $this->css);
             }
             return array(
+                'chapter_dir' => $chapterDir,
                 'title' => $page_title,
+                'file' => $this->bookRoot . $this->filesIds[$itemref],
                 'head' => $head,
-                'content' => $page
+                'content' => $chapter
             );
         }
         return array(
             'title' => '404',
+            'file' => '',
             'head' => '<title>404</title><meta http-equiv="Content-Type" content="application/xhtml+xml; charset=utf-8"/>',
             'content' => '<div style="text-align: center; page-break-after: always;"><p>404 Page Not Found</p></div>'
         );
@@ -472,7 +591,18 @@ exit;
                 $chapter = str_replace($link[0], " src=\"" . $this->navAddr . "&ext=" . rawurlencode($refFile) . "\"", $chapter);
             }
         }
-
+        
+        preg_match_all('#\s+xlink:href\s*=\s*"(.+?)"#im', $chapter, $links, PREG_SET_ORDER);
+        $itemCount = count($links);
+        for ($idx = 0; $idx < $itemCount; $idx++) {
+            $link = $links[$idx];
+            if (preg_match('#https*://.+?\..+#i', $link[1])) {
+                $chapter = str_replace($link[0], " src=\".\"", $chapter);
+            } else {
+                $refFile = RelativePath::pathJoin($chapterDir, $link[1]);
+                $chapter = str_replace($link[0], " xlink:href=\"" . $this->navAddr . "&ext=" . rawurlencode($refFile) . "\"", $chapter);
+            }
+        }
         preg_match_all('#\s+href\s*=\s*"(.+?)"#im', $chapter, $links, PREG_SET_ORDER);
 
         $itemCount = count($links);
@@ -483,7 +613,7 @@ exit;
                 $chapter = str_replace($link[0], " href=\"" . $this->navAddr  . "&show=" . $chaptersId[$link_id] . "\"", $chapter);
             } else {
                 if (preg_match('#https*://.+?\..+#i', $link[1])) {
-                    //$chapter = str_replace($link[0], " href=\"". $this->config['read_url'] . "?ext=" . rawurlencode($link[1]) . "\"", $chapter);
+                    $chapter = str_replace($link[0], " href=\"". $this->config['read_url'] . "?ext=" . rawurlencode($link[1]) . "\"", $chapter);
                 } else {
                     $refFile = RelativePath::pathJoin($chapterDir, $link[1]);
                     $id = "";
@@ -506,8 +636,7 @@ exit;
     }
     
     public function updateCSSLinks($cssData, $chapterDir) {
-        $cssData = str_replace('@page ', ".epubbody ", $cssData);
-        $cssData = str_replace('@page{', ".epubbody{", $cssData);
+        $cssData = str_replace('@page', ".epubbody", $cssData);
         preg_match_all('#url\s*\([\'\"\s]*(.+?)[\'\"\s]*\)#im', $cssData, $links, PREG_SET_ORDER);
 
         $itemCount = count($links);

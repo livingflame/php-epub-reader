@@ -80,9 +80,7 @@ $(document).ready(function() {
                 };
                 synth.speak(utterance);
                 if(!paragraph.fullyInView()){
-                    $('html, body').stop().animate({
-                        scrollTop: paragraph.offset().top - 50
-                    }, 2000);
+                    $('body').scrollTop(paragraph.offset().top - 50);
                 }
             } else {
                 $("#button-resume,#button-pause,#speakPrev,#speakNext,#speakBox").hide();
@@ -97,9 +95,6 @@ $(document).ready(function() {
             synth.onvoiceschanged = injectVoices(voice, synth.getVoices());
         };
         $("body").on('click','#button-stop',function () {
-            $('#epubbody *').contents().filter(function() { 
-                return (this.nodeType == 3) && this.nodeValue.length > 0; 
-              }).unwrap("<span class=\"tobe_read\"></span>");
             synth.cancel();
             $("#button-speak").show();
             par = [];
@@ -108,25 +103,29 @@ $(document).ready(function() {
             logEvent('stopped');
         });
 
-        $("body").on('click','#button-pause',function () {
+        $("body").on('click','#button-pause',function (e) {
+            e.preventDefault();
             synth.pause();
             $('#button-resume').show();
             $(this).hide();
             logEvent('paused');
         });
 
-        $("body").on('click','#button-resume',function () {
+        $("body").on('click','#button-resume',function (e) {
+            e.preventDefault();
             synth.resume();
             logEvent('resumed');
             $('#button-pause').show();
             $(this).hide();
         });
 
-        $("body").on('click','#speakPrev',function () {
+        $("body").on('click','#speakPrev',function (e) {
+            e.preventDefault();
             readParagraph(current_index-1);
         });
 
-        $("body").on('click','#speakNext',function () {
+        $("body").on('click','#speakNext',function (e) {
+            e.preventDefault();
             readParagraph(current_index+1);
         });
 

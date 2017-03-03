@@ -11,7 +11,7 @@ class PhpExportToEpub {
 		$this->zip = new ZipArchive();
         $this->files = $files;
 	}
-    function zipDir($dir){
+    public function zipDir($dir){
         $ffs = scandir($dir);
         foreach($ffs as $ff){
             if($ff != '.' && $ff != '..'){
@@ -32,6 +32,13 @@ class PhpExportToEpub {
             $this->zip->addFromString($filename, file_get_contents($file));
             $this->zipped[] = $filename;
         }
+	}
+
+	public function editFile($file, $newContents) {
+        $fileToModify = str_replace( $this->dir . '/', '', $file);
+        $fileToModify = str_replace( '\\', '/', $fileToModify);
+        $this->zip->deleteName($fileToModify)
+        $this->zip->addFromString($fileToModify, $newContents);
 	}
 
     public function export($destination = '',$overwrite = false){

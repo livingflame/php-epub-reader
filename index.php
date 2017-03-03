@@ -27,26 +27,28 @@ $config = array();
 $config['base_url'] = getBaseUrl();
 $config['read_url'] = getBaseUrl(FALSE) . "/read/";
 if(isset($url_path[0]) && $url_path[0] == 'read'){
+    $book = NULL;
     if ( isset($_GET['book']) && $_GET['book'] != "") {
-        
-        if ( isset($_GET['showToc']) && $_GET['showToc'] == "true") {
-            $config['show_toc'] = TRUE;
-        }
-        if ( isset($_GET['show']) && $_GET['show'] != "") {
-            $config['show_page'] = (int)$_GET['show'];
-        }
-        if ( isset($_GET['ext']) &&  $_GET['ext'] != "") {
-            $config['ext'] = $_GET['ext'];
-        }
-        if ( isset($_GET['extok']) &&  $_GET['extok'] != "") {
-            $config['extok'] = TRUE;
-        }
-        
-        
-        $eReader = new \LivingFlame\eBook\ePubReader(rawurlencode($_GET['book']),$config);
-        $eReader->outputEpub();
+        $book = rawurlencode($_GET['book']);
     }
-} else {?>
+    if ( isset($_GET['showToc']) && $_GET['showToc'] == "true") {
+        $config['show_toc'] = TRUE;
+    }
+    if ( isset($_GET['show']) && $_GET['show'] != "") {
+        $config['show_page'] = (int)$_GET['show'];
+    }
+    if ( isset($_GET['edit']) && $_GET['edit'] == "true") {
+        $config['edit'] = TRUE;
+    }
+    if ( isset($_GET['ext']) &&  $_GET['ext'] != "") {
+        $config['ext'] = $_GET['ext'];
+    }
+    if ( isset($_GET['extok']) &&  $_GET['extok']  == "true") {
+        $config['extok'] = TRUE;
+    }
+    $eReader = new \LivingFlame\eBook\ePubReader($book,$config);
+    $eReader->outputEpub();
+} else { ?>
 <!DOCTYPE html>
 <html>
     <head>
@@ -60,44 +62,51 @@ if(isset($url_path[0]) && $url_path[0] == 'read'){
         <div class="book_list">
 		<?php
         $yourDataArray = array();
-        function showEpubs($dir,$config){
-            $ffs = scandir($dir);
-            global $yourDataArray;
-            
-            foreach($ffs as $ff){
-                if($ff != '.' && $ff != '..'){
-                    
-                    if(is_dir($dir. DS .$ff)){
-                        showEpubs($dir. DS .$ff,$config);
-                    } else if(is_file($dir. DS .$ff)){
-                        $di = pathinfo($ff);
-                        $from=mb_detect_encoding($ff); 
-                        $file=iconv($from,'UTF-8',$ff);
-                        if (isset($di['extension']) && strtolower($di['extension']) == "epub") {
-                            $book = rawurlencode($file);
-                            $root = str_replace("\\",'/',DOC_ROOT);
-                            $url_dir = str_replace("\\",'/',$dir. DS);
-                            $url_dir = str_replace($root,"",$url_dir);
-                            $url_file = urlencode($url_dir . $file);
-                            $epub = new \LivingFlame\eBook\ePubReader($url_dir . $book,$config);
-                            $description = strip_tags($epub->getBookDescription(), '<br>');
-                            $yourDataArray[] = array(
-                                'file' => $ff,
-                                'dir' => $dir,
-                                'rd_url' => getBaseUrl(FALSE)."/read/?book=".$url_file,
-                                'dl_url' => getBaseUrl().$url_file,
-                                'description' => substr($description, 0, 200) .((strlen($description) > 200) ? '...' : ''),
-                                'title' => strip_tags($epub->getBookTitle()),
-                                'cover' => $epub->getCoverUrl(),
-                            );
-                            unset($epub);
+        $cachePath = 'cache/books.json'; //location of cache file
+        $current_time = time();
+
+        if(file_exists($cachePath) && ($current_time < strtotime('+1 day', filemtime($cachePath)))){ //check if cache file exists and hasn't expired yet
+            $yourDataArray = unpk(file_get_contents($cachePath));
+        }else{
+            function showEpubs($dir,$config){
+               global $yourDataArray;
+                $ffs = scandir($dir);
+                foreach($ffs as $ff){
+                    if($ff != '.' && $ff != '..'){
+                        if(is_dir($dir. DS .$ff)){
+                            showEpubs($dir. DS .$ff,$config);
+                        } else if(is_file($dir. DS .$ff)){
+                            $di = pathinfo($ff);
+                            $from=mb_detect_encoding($ff); 
+                            $file=iconv($from,'UTF-8',$ff);
+                            if (isset($di['extension']) && strtolower($di['extension']) == "epub") {
+                                $book = rawurlencode($file);
+                                $root = str_replace("\\",'/',DOC_ROOT);
+                                $url_dir = str_replace("\\",'/',$dir. DS);
+                                $url_dir = str_replace($root,"",$url_dir);
+                                $url_file = urlencode($url_dir . $file);
+                                $epub = new \LivingFlame\eBook\ePubReader($url_dir . $book,$config);
+                                $description = strip_tags($epub->getBookDescription(), '<br>');
+                                $yourDataArray[] = array(
+                                    'file' => $ff,
+                                    'dir' => $dir,
+                                    'rd_url' => getBaseUrl(FALSE)."/read/?book=".$url_file,
+                                    'dl_url' => getBaseUrl().$url_file,
+                                    'description' => substr($description, 0, 200) .((strlen($description) > 200) ? '...' : ''),
+                                    'title' => strip_tags($epub->getBookTitle()),
+                                    'cover' => $epub->getCoverUrl(),
+                                );
+                                unset($epub);
+                            }
                         }
-                    }
-                } 
-                
+                    } 
+                    
+                }
             }
+            showEpubs(DOC_ROOT . "books",$config);
+            file_put_contents($cachePath, pk($yourDataArray));
         }
-        showEpubs(DOC_ROOT . "books",$config);
+        
     $pagination = new ArrayPagination();
     $data = $pagination->generate($yourDataArray,20);
     
@@ -124,17 +133,15 @@ if(isset($url_path[0]) && $url_path[0] == 'read'){
     }
     ?>
     <div class="pagination"><?php echo $pagination->links(); ?></div>
+        </div>
+		<hr />
+		<p><a href="PHPEPubRead-src.zip">Source Code</a></p>
+    </body>
+</html>
     <?php
-    
-
 }
 
 } catch (Exception $e) {
   echo $e->getMessage();
 }
 ?>
-        </div>
-		<hr />
-		<p><a href="PHPEPubRead-src.zip">Source Code</a></p>
-    </body>
-</html>
