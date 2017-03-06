@@ -11,7 +11,7 @@
     <dc:language>en-US</dc:language>
     <dc:title id="title">One 2 One</dc:title>
     <dc:description>ONE 2 ONE discusses in simple language the basic yet fundamental foundations of following Jesus. It is meant to be shared in a one-on-one setting, one chapter at a time. It is a practical walk-through to help new believers take “baby steps” in their new-found relationship with God.</dc:description>
-    <dc:creator id="creator">Steve Murrell</dc:creator>
+    <dc:creator id="creator" opf:role="aut" opf:file-as="Murrell, Steve">Murrell, Steve</dc:creator>
     <meta refines="#creator" property="file-as">Murrell, Steve</meta>
     <meta refines="#creator" property="role" scheme="marc:relators">aut</meta>
     <dc:publisher>EVERY NATION PRODUCTIONS</dc:publisher>

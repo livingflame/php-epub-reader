@@ -32,6 +32,7 @@ class ePubReader {
 	public $auto_title;
 	public $config = array();
 	public $edit;
+	public $zip;
 
 	public function __construct($book_file = null, $config = array()) {
         $this->config = array_merge(array(
@@ -44,6 +45,7 @@ class ePubReader {
             'edit' => FALSE,
         ), $config);
         
+        $this->zip = new \ZipArchive;
         $this->edit = $this->config['edit'];
         $this->show_toc = $this->config['show_toc'];
         $this->auto_title = $this->config['auto_title'];
@@ -56,7 +58,8 @@ class ePubReader {
         if($book_file !== NULL){
             $this->book = rawurldecode($book_file);
             if (file_exists($this->book) && is_file($this->book)) {
-                $this->valid_epub = $this->parseEpub($this->book);
+                $this->file = $this->book;
+                $this->valid_epub = $this->parseEpub();
             } else {
                 die ("No file");
             }
@@ -229,7 +232,6 @@ class ePubReader {
                     content = $(this).val();
                     content = content.replace(/\n/g, '<br>');
                     hiddenDiv.html(content + '<br class="lbr">');
-
                     $(this).css('height', hiddenDiv.height());
                     $(this).css('width', hiddenDiv.width());
                 });
@@ -281,12 +283,17 @@ class ePubReader {
 					<?php if ($this->show_toc) {
 						echo $this->toc;
 					} else { ?>
-                        <input type="text" id="edit_title" value="<?php echo $page['title']; ?>" />
-                        <textarea id="edit_page"><?php 
-                        $converter = new \League\HTMLToMarkdown\HtmlConverter(array('header_style'=>'atx'));
-                        $markdown = $converter->convert($page['content']);
-                        echo $markdown;
-                        ?></textarea>						
+                        <form name="edit_epub_page" method="post">
+                            <input type="hidden" name="page_file" value="<?php echo $page['file']; ?>"/>
+                            <input type="text" name="edit_title" id="edit_title" value="<?php echo $page['title']; ?>" />
+                            <textarea id="edit_page" name="edit_page"><?php 
+                            $converter = new \League\HTMLToMarkdown\HtmlConverter(array('header_style'=>'atx'));
+                            $markdown = $converter->convert($page['content']);
+                            echo $markdown;
+                            ?></textarea>
+                            <input type="submit" value="Submit" />
+                            
+                        </form>                        
 					<?php } ?>
 					</div>
 				</div>
@@ -322,26 +329,27 @@ class ePubReader {
         }
     }
     public function outputFile($refType){
-        $zipArchive = zip_open($this->file);
-        while($zipEntry = zip_read($zipArchive)) {
-            if (zip_entry_filesize($zipEntry) > 0) {
-                if (zip_entry_name($zipEntry) == ($this->bookRoot . $this->ext)) {
-                    header("Pragma: public"); // required
-                    header("Expires: 0");
-                    header("Cache-Control: must-revalidate, post-check=0, pre-check=0");
-                    header("Cache-Control: private",false); // required for certain browsers
-                    header("Content-Disposition: attachment; filename=\"".$this->ext."\";" );
-                    header("Content-Type: $refType");
-                    header("Content-Transfer-Encoding: binary");
-                    header("Content-Length: " . zip_entry_filesize($zipEntry));
-                    ob_clean();
-                    flush();
-                    echo $this->readZipEntry($zipEntry);
-                }
-            }
+        if ($this->zip->open($this->file) === TRUE) {
+            //Read contents into memory
+            $stat = $this->zip->statName($this->bookRoot . $this->ext);
+            $content = $this->zip->getFromName($this->bookRoot . $this->ext);
+            header("Pragma: public"); // required
+            header("Expires: 0");
+            header("Cache-Control: must-revalidate, post-check=0, pre-check=0");
+            header("Cache-Control: private",false); // required for certain browsers
+            header("Content-Disposition: attachment; filename=\"".$this->ext."\";" );
+            header("Content-Type: $refType");
+            header("Content-Transfer-Encoding: binary");
+            header("Content-Length: " . $stat['size']);
+            ob_clean();
+            flush();
+            echo $content;
+            $zip->close();
+
+        } else {
+            echo 'failed';
         }
-        zip_close($zipArchive);
-        exit;
+
     }
 
     public function askRedirect(){ ?>
@@ -365,34 +373,25 @@ class ePubReader {
 exit;
     }
 
-    public function parseEpub($file){
-        $this->file = $file;
-        $zipArchive = zip_open($file);
-        $zipEntry = zip_read($zipArchive);
-        $name = zip_entry_name($zipEntry);
-        $size = zip_entry_filesize($zipEntry);
+    public function parseEpub(){
+        if(!@$this->zip->open($this->file)){
+            throw new Exception('Failed to read epub file');
+        }
+        $mimetype = $this->zip->getFromName('mimetype');
+        if($mimetype == false ){
+            throw new Exception('Failed to access epub mimetype file');
+        }
+
         $chapterDir = NULL;
 
-        if ($name == "mimetype" && zip_entry_read($zipEntry, $size) == 'application/epub+zip') {
-            $this->files[$name] = $zipEntry;
-            $this->navAddr = $this->config['read_url'] . "?book=" . rawurlencode($file);
-
-            while($zipEntry = zip_read($zipArchive)) {
-                if (zip_entry_filesize($zipEntry) > 0) {
-                    $this->files[zip_entry_name($zipEntry)] = $zipEntry;
-                }
+        if ($mimetype == 'application/epub+zip') {
+            //iterate the archive files array and display the filename or each one
+            for ($i = 0; $i < $this->zip->numFiles; $i++) {
+                $this->files[$this->zip->getNameIndex($i)] = $this->zip->getNameIndex($i);
             }
-
-            $compressed = 0;
-            $uncompressed = 0;
-
-            while (list($name, $zipEntry) = each($this->files)) {
-                $compressed += zip_entry_compressedsize($zipEntry);
-                $uncompressed += zip_entry_filesize($zipEntry);
-            }
-
-            $zipEntry = $this->files["META-INF/container.xml"];
-            $container = $this->readZipEntry($zipEntry);
+            
+            $this->navAddr = $this->config['read_url'] . "?book=" . rawurlencode($this->file);
+            $container = $this->zip->getFromName("META-INF/container.xml");
             $xContainer = new \SimpleXMLElement($container);
             $opfPath = $xContainer->rootfiles->rootfile['full-path'];
             $opfType = $xContainer->rootfiles->rootfile['media-type'];
@@ -401,13 +400,12 @@ exit;
                 $this->bookRoot = "";
             }
 
-
             // Read the OPF file:
-                if(!isset($this->files["$opfPath"])){
-                    echo $this->files["$opfPath"] ."<br />";
-                    echo $this->book ."<br />";
-                }
-            $opf = new \SimpleXMLElement($this->readZipEntry($this->files["$opfPath"]));
+            if(!isset($this->files["$opfPath"])){
+                throw new Exception('Book' . $this->book . ' does not have a proper OPF file');
+            }
+
+            $opf = new \SimpleXMLElement($this->zip->getFromName($opfPath));
             $this->book_title = $opf->metadata->children('dc', true)->title;
             $this->book_author = $opf->metadata->children('dc', true)->creator;
             $this->book_description = $opf->metadata->children('dc', true)->description;
@@ -431,7 +429,7 @@ exit;
                 $this->fileLocations[$href] = $id;
                 $this->fileTypes[$id] = (string)$item['media-type'];
                 if ($this->fileTypes[$id] == "text/css") {
-                    $cssData = $this->readZipEntry($this->files[$this->bookRoot . $this->filesIds[$id]]);
+                    $cssData = $this->zip->getFromName($this->bookRoot . $this->filesIds[$id]);
                     $chapterDir = dirname($this->filesIds[$id]);
                     $this->css[$this->filesIds[$id]] = $this->updateCSSLinks($cssData, $chapterDir);
                 }
@@ -439,12 +437,11 @@ exit;
 
             $chapterNum = 1;
             foreach($this->spineIds as $order => $itemref){
-
                 if ($this->fileTypes[$itemref] == "application/xhtml+xml") {
                     $this->chaptersId[$this->filesIds[$itemref]] = $chapterNum++;
                     $this->chapters[] = array(
                         'dir' => dirname($this->filesIds[$itemref]),
-                        'content' => $this->readZipEntry($this->files[$this->bookRoot . $this->filesIds[$itemref] ]),
+                        'content' => $this->zip->getFromName($this->bookRoot . $this->filesIds[$itemref]),
                         'itemref' => $itemref
                     );
                 }
@@ -453,19 +450,25 @@ exit;
 
                 if($meta->attributes()->name == 'cover'){
                     $cover_id = (string)$meta->attributes()->content;
-                    $this->cover = $this->config['read_url'] . "?book=" . rawurlencode($file) . "&ext=" . rawurlencode($this->filesIds[$cover_id]);
+                    $this->cover = $this->config['read_url'] . "?book=" . rawurlencode($this->file) . "&ext=" . rawurlencode($this->filesIds[$cover_id]);
                 }
 
             }
             $ncxId = (string)$this->spine['toc'];
-            $ncxPath = $this->bookRoot . $this->filesIds[$ncxId];
-            $this->ncx = $this->readZipEntry($this->files[$ncxPath]);
+            $this->ncx = $this->zip->getFromName($this->bookRoot . $this->filesIds[$ncxId]);
             $this->buildToc($chapterDir);
-            zip_close($zipArchive);
 
             return TRUE;
         }
         return FALSE;
+    }
+    public function editFile($file_to_modify,$new_content){
+        if(!@$this->zip->open($this->file)){
+            throw new Exception('Failed to read epub file');
+        }
+        $this->zip->deleteName($file_to_modify);
+        $this->zip->addFromString($file_to_modify, $new_content);
+        $this->zip->close();
     }
     public function getBookDescription(){
         return $this->book_description;
