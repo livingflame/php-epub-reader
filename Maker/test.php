@@ -37,7 +37,7 @@ class PhpExportToEpub {
 	public function editFile($file, $newContents) {
         $fileToModify = str_replace( $this->dir . '/', '', $file);
         $fileToModify = str_replace( '\\', '/', $fileToModify);
-        $this->zip->deleteName($fileToModify)
+        $this->zip->deleteName($fileToModify);
         $this->zip->addFromString($fileToModify, $newContents);
 	}
 
@@ -78,7 +78,7 @@ class PhpExportToEpub {
 zip the files, saving it as epub
  */
  
-$dir = realpath(realpath( dirname( __FILE__ ) ) . DIRECTORY_SEPARATOR . 'Inheritance Cycle - Inheritance - Paolini, Christopher');
+$dir = realpath(realpath( dirname( __FILE__ ) ) . DIRECTORY_SEPARATOR . 'Bringing The Farm To Live In Another World');
 $exporter = new PhpExportToEpub($dir,array(
     'mimetype',
     'META-INF/container.xml',
@@ -86,5 +86,5 @@ $exporter = new PhpExportToEpub($dir,array(
     'content.opf',
     'toc.ncx',
 ));
-$exporter->export('Inheritance Cycle - Inheritance - Paolini, Christopher.epub');
-$exporter->listContent('Inheritance Cycle - Inheritance - Paolini, Christopher.epub');
+$exporter->export('Bringing The Farm To Live In Another World.epub');
+$exporter->listContent('Bringing The Farm To Live In Another World.epub');

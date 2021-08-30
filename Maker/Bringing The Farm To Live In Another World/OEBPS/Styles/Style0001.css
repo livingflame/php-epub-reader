@@ -1,0 +1,110 @@
+/* Fonts
+--------------------------------------------------------------------------------*/
+@font-face {
+    font-family: 'Andalus';
+    font-weight: normal;
+    font-style: normal;
+    src: url('../Fonts/Andalus.ttf');
+}
+
+@font-face {
+	font-family: 'Ovo';
+    font-weight: normal;
+    font-style: normal;
+    src: url('../Fonts/Ovo-Regular.ttf');
+    }
+
+/* Tables
+--------------------------------------------------------------------------------*/
+table, table.fanfic, td, td.fanfic, tr, tr.fanfic {
+	font-family: "Arial", Sans-serif;
+	font-size: 14px;
+	border: 1px solid #7499c4;
+	color:#404040;
+}
+
+table, table.fanfic {
+	background-color: #d2e4f2; 
+	width: 90%;
+}
+
+td, td.fanfic{
+	padding:15px;
+}
+
+/* Heading
+--------------------------------------------------------------------------------*/
+h1, h2, h3, h4, h5, h6 {
+	color:#333333;
+	text-decoration:none;
+	padding:0px;
+	margin: 0px;
+}
+
+h1 {
+	font-family: "Ovo", Sans-serif;
+	font-size: 56px;
+}
+
+h2 {
+	font-family: "Andalus", Sans-serif;
+	font-size: 30px;
+}
+
+h3 {
+	font-family: "Ovo", Sans-serif;
+	font-size: 36px;
+}
+
+h4 {
+	font-family: "Ovo", Sans-serif;
+	font-size: 26px;
+}
+
+h5 {
+	font-family: "Mage Script", Sans-serif;
+	font-size: 36px;
+}
+
+h6 {
+	font-family: "Moon Rune", Sans-serif;
+	font-size: 36px;
+}
+
+/* General Styling and Structure
+--------------------------------------------------------------------------------*/
+img.alignleft {
+	float: left;
+	padding-right: 30px
+}
+
+body {
+	font-family: "Ovo", Sans-serif;
+	font-size: 20px;
+	color: #000000;
+}
+
+a {
+	color: #3366aa;
+}
+
+ul.dot {
+	list-style-image:url('../Images/bullet_blue.png');
+	padding-top: 5px;
+	margin-top: 5px;
+} 
+
+ul.arrowblue {
+	list-style-image:url('../Images/arrow_medium.png');
+	padding-top: 5px;
+	margin-top: 5px;
+} 
+
+div.fanfichr {
+  height: 15px;
+  background: url(../Images/hr.png) no-repeat scroll center;
+}
+
+div.fanfichr hr {
+  display: none;
+}
