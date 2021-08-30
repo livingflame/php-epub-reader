@@ -1,1 +1,0 @@
-http://webdevelopment.com/git/php-epub-reader/index.php/read/?book=books%2FMartial%20World.epub&show=725
