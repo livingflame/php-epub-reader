@@ -1,15 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
-<package version="2.0" unique-identifier="BookId" xmlns="http://www.idpf.org/2007/opf">
+<package xmlns="http://www.idpf.org/2007/opf" 
+         version="3.0" 
+         xml:lang="en" 
+         unique-identifier="pub-id">
   <metadata xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:opf="http://www.idpf.org/2007/opf">
     <meta content="0.9.14" name="Sigil version" />
 	<meta content="front_cover001" name="cover"/>
-    <dc:title>Bringing The Farm To Live In Another World - Chapter 0001-1310 (incomplete)</dc:title>
+    <dc:title id="title">Bringing The Farm To Live In Another World - Chapter 0001-1310 (incomplete)</dc:title>
     <dc:creator id="creator" opf:role="aut" opf:file-as="Ming Yu">Ming Yu</dc:creator>
     <meta refines="#creator" property="file-as">Ming Yu</meta>
     <meta refines="#creator" property="role" scheme="marc:relators">aut</meta>
     <dc:language>en</dc:language>
     <dc:date opf:event="modification">2020-05-27</dc:date>
-    <dc:identifier opf:scheme="UUID" id="BookId">urn:uuid:1a82cc17-601c-4aa5-9d0e-cf3c3fa2d50c</dc:identifier>
+	<dc:identifier id="pub-id">urn:uuid:1a82cc17-601c-4aa5-9d0e-cf3c3fa2d50c</dc:identifier>
+    <meta refines="#pub-id" property="identifier-type" scheme="xsd:string">15</meta>
 <dc:description>Synopsis from NovelUpdates:
 
 “If he’s being badass, I’m gonna plant my own crops. If he messes with me, he will not live past next year.”

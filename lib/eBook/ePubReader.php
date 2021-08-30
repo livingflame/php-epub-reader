@@ -1,5 +1,8 @@
 <?php
 namespace LivingFlame\eBook;
+if (!defined('DOC_ROOT')) {
+	define('DOC_ROOT',      realpath(dirname(__FILE__)) . DIRECTORY_SEPARATOR);
+}
 class ePubReader {
 	public $bookRoot;
 	public $book;
@@ -484,13 +487,13 @@ exit;
     }
     public function getPage($chapter_order){
         if(isset($this->chapters[$chapter_order])){
-            if($chapter_order != 0 && $this->edit === FALSE && $this->show_toc){
+            if($chapter_order != 0 && $this->edit === FALSE && !$this->show_toc){
                 $absolute_url = $this->fullUrl( $_SERVER );
-                $file = 'tmp/' . md5($this->getBookTitle()) . '.txt';
+                $file = DOC_ROOT . 'tmp/' . md5($this->getBookTitle()) . '.txt';
                 file_put_contents($file, $absolute_url);
             }
             if($chapter_order == 0 && !isset($_GET['show'])){
-                $filename = 'tmp/' . md5($this->getBookTitle()) . '.txt';
+                $filename = DOC_ROOT . 'tmp/' . md5($this->getBookTitle()) . '.txt';
                 if (file_exists($filename)) {
                     $location = file_get_contents($filename);
                     header('refresh:2;url=' . $location);
