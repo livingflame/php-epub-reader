@@ -80,30 +80,30 @@ class ArrayPagination
             // Assign the 'previous page' link into the array if we are not on the first page
             if ($this->page != 1) {
                 if ($this->showFirstAndLast) {
-                    $plinks[] = ' <a href="?page=1'.$queryURL.'">&laquo;&laquo; First </a> ';
+                    $plinks[] = '<li> <a href="?page=1'.$queryURL.'">&laquo;&laquo; First </a> </li>';
                 }
-                $plinks[] = ' <a href="?page='.($this->page - 1).$queryURL.'">&laquo; Prev</a> ';
+                $plinks[] = '<li> <a href="?page='.($this->page - 1).$queryURL.'">&laquo; Prev</a> </li>';
             }
             
             // Assign all the page numbers & links to the array
             for ($j = 1; $j < ($this->pages + 1); $j++) {
                 if ($this->page == $j) {
-                    $links[] = ' <a class="selected">'.$j.'</a> '; // If we are on the same page as the current item
+                    $links[] = '<li> <a class="selected">'.$j.'</a> </li>'; // If we are on the same page as the current item
                 } else {
-                    $links[] = ' <a href="?page='.$j.$queryURL.'">'.$j.'</a> '; // add the link to the array
+                    $links[] = '<li> <a href="?page='.$j.$queryURL.'">'.$j.'</a> </li>'; // add the link to the array
                 }
             }
 
             // Assign the 'next page' if we are not on the last page
             if ($this->page < $this->pages) {
-                $slinks[] = ' <a href="?page='.($this->page + 1).$queryURL.'"> Next &raquo; </a> ';
+                $slinks[] = '<li> <a href="?page='.($this->page + 1).$queryURL.'"> Next &raquo; </a> </li>';
                 if ($this->showFirstAndLast) {
-                    $slinks[] = ' <a href="?page='.($this->pages).$queryURL.'"> Last &raquo;&raquo; </a> ';
+                    $slinks[] = '<li> <a href="?page='.($this->pages).$queryURL.'"> Last &raquo;&raquo; </a> </li>';
                 }
             }
             
             // Push the array into a string using any some glue
-            return implode(' ', $plinks).implode($this->separator, $links).implode(' ', $slinks);
+            return '<ul class="pagination">' . implode(' ', $plinks).implode($this->separator, $links).implode(' ', $slinks) . '</ul>';
         }
         return;
     }

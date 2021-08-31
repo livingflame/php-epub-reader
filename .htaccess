@@ -10,5 +10,5 @@ RewriteEngine On
 # if you installed the script in a subdir use something like below
 # RewriteBase /subdirectory/
 
-RewriteCond $1 !^(index\.php||css|js|fonts)
+RewriteCond $1 !^(index\.php|dir\.php|cute-file-browser|assets|Maker|books|test\.php|thumb\.jpg)
 RewriteRule ^(.*)$ index.php/$1
