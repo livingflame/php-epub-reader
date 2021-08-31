@@ -117,7 +117,7 @@ if(isset($url_path[0]) && $url_path[0] == 'read'){
     $eReader->outputEpub();
 } else { 
     $yourDataArray = array();
-    $cachePath = DOC_ROOT . 'cache/books.php'; //location of cache file
+    $cachePath = DOC_ROOT . 'tmp/cache/books.php'; //location of cache file
     $current_time = time();
 
     if(file_exists($cachePath) && ($current_time < strtotime('+1 day', filemtime($cachePath)))){ //check if cache file exists and hasn't expired yet

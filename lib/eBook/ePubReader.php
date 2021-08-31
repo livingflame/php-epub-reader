@@ -66,7 +66,7 @@ class ePubReader {
             if (file_exists($this->config['root_dir'].$epub_file) && is_file($this->config['root_dir'].$epub_file)) {
 				$this->book = $epub_file;
 				$this->nav_address = $this->config['read_url'] . "?book=" . $book_file;
-                $this->cache_file = $this->config['root_dir'] . 'cache/' . $book_file . '.php';
+                $this->cache_file = $this->config['root_dir'] . 'tmp/cache/' . $book_file . '.php';
 
                 if (!file_exists($this->cache_file)) {
                     $book_info =  array( 'sha1' => sha1_file($this->config['root_dir'].$this->book), 'show' => 0 );
@@ -82,7 +82,7 @@ class ePubReader {
 	public function download( $inline=false ){
 		if(!empty($this->book)){
             
-            $extract_dir = $this->config['root_dir'] . 'extract/' . sha1_file($this->config['root_dir'].$this->book) . '/';
+            $extract_dir = $this->config['root_dir'] . 'tmp/extract/' . sha1_file($this->config['root_dir'].$this->book) . '/';
             if(!is_dir($extract_dir)){
                 mkdir($extract_dir, 0700);
             }
@@ -272,7 +272,7 @@ class ePubReader {
                     'toc.ncx',
                 ));
                 
-                $file_path  = $this->config['root_dir'] . 'export/' . basename($this->config['root_dir'] . $this->book);
+                $file_path  = $this->config['root_dir'] . 'tmp/export/' . basename($this->config['root_dir'] . $this->book);
                 $exporter->export( $file_path );
          
                 clearstatcache();
@@ -777,7 +777,7 @@ class ePubReader {
             } else {
                 $top_text = (string) $this->getBookTitle();
                 if($top_text){
-                    $filename = $this->config['root_dir'] . 'cache/' . md5($top_text) . '.png';
+                    $filename = $this->config['root_dir'] . 'tmp/cache/' . md5($top_text) . '.png';
                     if(!file_exists($filename)){
                         $bottom_text = (string) $this->getBookAuthor();
                         $tti = new CoverMaker(1200,1600);
