@@ -53,5 +53,3 @@ Thumbs.db
 
 # other
 composer.phar
-cache/
-tmp/
