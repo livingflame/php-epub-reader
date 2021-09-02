@@ -23,7 +23,14 @@ hr{ border:0;height:1px;background:#333;background-image:linear-gradient(to righ
 #header{top:0;border-bottom:1px solid silver;}
 #footer{bottom:0;border-top:1px solid silver;}
 
-#aside{position: fixed;display:none;overflow: auto;background: #e9e9e9;top: 51px;bottom: 51px;left: 0;width: 25%;min-width: 350px;border-right: 1px solid #899caa}
+#aside{position: fixed;display:none;overflow: auto;background: #e9e9e9;top: 51px;bottom: 51px;left: 0;max-width: 350px;border-right: 1px solid #899caa}
+#aside.on{display:block;}
+@media only screen and (max-width: 768px) {
+  #aside {
+    width: 100%;
+  }
+}
+
 #aside ol{counter-reset:li;}
 #aside ol > li{position:relative;list-style:none;margin:0 0 6px 2.5em;line-height:2em;}
 #aside ol > li:before{content:counter(li);counter-increment:li;position:absolute;left:-2em;width:2em;margin-right:8px;color:#fff;background:#666;font-weight:bold;text-align:center;}

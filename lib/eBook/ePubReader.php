@@ -823,7 +823,7 @@ class ePubReader {
             $id = (string)$item["id"];
             $label = (string)$item->navLabel->text;
             $src =  (string)$item->content["src"];
-            $nav .= $indent . "  <li><a href=\"" . $src . "\">$label</a>";
+            $nav .= $indent . "  <li id=\"".$id."\"><a href=\"" . $src . "\">$label</a>";
             if ((bool)$item->navPoint == TRUE) {
                 $nav .= $this->makeNCXNav($item, $level+1);
             }

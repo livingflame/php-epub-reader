@@ -295,7 +295,6 @@ $(document).ready(function() {
             $(this).hide();
         });
         currenLinkHighlight(window.location.href);
-        
     }
 
 	// Form
@@ -303,11 +302,27 @@ $(document).ready(function() {
         event.preventDefault();
         $('#speakBox').toggle();
     });
-
+	var visible =  false;
+	var top_offset = 0;
     $("body").on('click','a.toc',function(event) {
         $(this).toggleClass('on');
         event.preventDefault();
-        $('#aside').toggle();
+		$('#aside').toggleClass('on');
+		setTimeout(function(){ 
+			visible = !visible;
+			if(visible){
+				var $el = $("#aside").find('a.active').closest('li');
+				var id = $el.attr('id');
+				console.log(id);
+				if(top_offset == 0){
+					top_offset = $('#' + id).offset().top - 100;
+				}
+				$('#aside').animate({
+					scrollTop: top_offset
+				}, 300);
+			}
+		}, 100);
+
     });
 
     $("body").on('click',function(event) {
