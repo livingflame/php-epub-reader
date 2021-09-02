@@ -6,7 +6,6 @@ body{font-size:.95em;}
 html,body,div,p,input,select,fieldset,form,ul,ol,li,dl,dt,dd,h1,h2,h3,h5,h6{margin:0;padding:0;outline:0;text-indent: 0;text-align:justify;color:#5b4636;font-family:Helvetica,Arial,sans-serif;line-height:1.5em;}
 h1,h2,h3,h5,h6{font-family:Times, Times New Roman, serif;line-height:1.5em;}
 body{background-color:#f4ecd8;}
-ul,ol,li{list-style:none}
 a{text-decoration:none;cursor:pointer}
 a:hover{text-decoration:underline}
 img,input{border:0}
@@ -23,7 +22,7 @@ hr{ border:0;height:1px;background:#333;background-image:linear-gradient(to righ
 #header{top:0;border-bottom:1px solid silver;}
 #footer{bottom:0;border-top:1px solid silver;}
 
-#aside{position: fixed;display:none;overflow: auto;background: #e9e9e9;top: 51px;bottom: 51px;left: 0;max-width: 350px;border-right: 1px solid #899caa}
+#aside{position: fixed;display:none;overflow: auto;background: #e9e9e9;top: 51px;bottom: 51px;left: 0;max-width: 768px;border-right: 1px solid #899caa}
 #aside.on{display:block;}
 @media only screen and (max-width: 768px) {
   #aside {
@@ -31,13 +30,10 @@ hr{ border:0;height:1px;background:#333;background-image:linear-gradient(to righ
   }
 }
 
-#aside ol{counter-reset:li;}
-#aside ol > li{position:relative;list-style:none;margin:0 0 6px 2.5em;line-height:2em;}
-#aside ol > li:before{content:counter(li);counter-increment:li;position:absolute;left:-2em;width:2em;margin-right:8px;color:#fff;background:#666;font-weight:bold;text-align:center;}
+#aside ol > li{position:relative;margin:0 0 6px 2.5em;line-height:2em;}
 #aside ol a{display:inline-block;padding-left:5px;color:#444;}
 #aside ol a:visited{color:#445058;}
 #aside ol li a.active{font-weight:bold;}
-#aside ol ol li:before{border-radius:50%;}
 
 #content .inner{padding:50px 10px;}
 #header ul.pagination{float:left;}

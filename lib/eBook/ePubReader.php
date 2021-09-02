@@ -415,6 +415,10 @@ class ePubReader {
                 $head = str_replace ( $title[1] , $chapter_order . "::" . $this->getBookTitle() , $head );
             }
         }
+        if(empty($page_title)){
+            $page_title = 'Chapter ' . $chapter_order . ":|:" . $this->getBookTitle();
+            $head=preg_replace(array('/<title>(.*)<\/title>/i'),array('<title>'.$page_title.'</title>'),$head);
+        }
 
         $head = preg_replace('/<link\s[^>]*type\s*=\s*"application\/vnd.adobe-page-template\+xml\"[^>]*\/>/i','',$head);
         $start = strpos($xhtml, "<body");
@@ -818,7 +822,7 @@ class ePubReader {
 
     public function makeNCXNav($navMap, $level = 0) {
         $indent = str_repeat("    ", $level);
-        $nav = $indent . "<ol>\n";
+        $nav = $indent . "<ul>\n";
         foreach ($navMap->navPoint as $item) {
             $id = (string)$item["id"];
             $label = (string)$item->navLabel->text;
@@ -829,7 +833,7 @@ class ePubReader {
             }
             $nav .= "</li>\n";
         }
-        $nav .= $indent . "</ol>\n";
+        $nav .= $indent . "</ul>\n";
         return $nav;
     }
 

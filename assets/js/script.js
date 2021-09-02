@@ -313,7 +313,6 @@ $(document).ready(function() {
 			if(visible){
 				var $el = $("#aside").find('a.active').closest('li');
 				var id = $el.attr('id');
-				console.log(id);
 				if(top_offset == 0){
 					top_offset = $('#' + id).offset().top - 100;
 				}
