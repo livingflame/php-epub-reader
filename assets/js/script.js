@@ -308,20 +308,14 @@ $(document).ready(function() {
         $(this).toggleClass('on');
         event.preventDefault();
 		$('#aside').toggleClass('on');
-		setTimeout(function(){ 
-			visible = !visible;
-			if(visible){
-				var $el = $("#aside").find('a.active').closest('li');
-				var id = $el.attr('id');
-				if(top_offset == 0){
-					top_offset = $('#' + id).offset().top - 100;
-				}
-				$('#aside').animate({
-					scrollTop: top_offset
-				}, 300);
-			}
-		}, 100);
-
+		visible = !visible;
+		if(visible){
+			var $el = $("#aside").find('a.active').closest('li');
+			var $parentEl = $("#aside");
+            $parentEl.scrollTop(
+                $parentEl.scrollTop() - $parentEl.offset().top + $el.offset().top - ($parentEl.outerHeight() / 2) + ($el.outerHeight() / 2)
+            );
+		}
     });
 
     $("body").on('click',function(event) {

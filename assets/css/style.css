@@ -30,10 +30,10 @@ hr{ border:0;height:1px;background:#333;background-image:linear-gradient(to righ
   }
 }
 
-#aside ol > li{position:relative;margin:0 0 6px 2.5em;line-height:2em;}
-#aside ol a{display:inline-block;padding-left:5px;color:#444;}
-#aside ol a:visited{color:#445058;}
-#aside ol li a.active{font-weight:bold;}
+#aside li{position:relative;margin:0 0 6px 2.5em;line-height:2em;}
+#aside a{display:inline-block;padding-left:5px;color:#444;}
+#aside a:visited{color:#445058;}
+#aside li a.active{font-weight:bold;}
 
 #content .inner{padding:50px 10px;}
 #header ul.pagination{float:left;}
