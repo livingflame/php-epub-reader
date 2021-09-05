@@ -48,7 +48,10 @@ $(document).ready(function() {
         $("#aside a").each(function(){
             if (this.href == url){
                 $(this).addClass("active");
-            }
+                $(this).attr("tabindex",'1');				
+            } else {
+                $(this).attr("tabindex",'0');
+			}
         });
     }
     
