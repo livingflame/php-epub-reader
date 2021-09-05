@@ -1,7 +1,6 @@
 @charset UTF-8;
 html,
-body{height:100%;}
-html{font:16px;}
+body{height:100%;font:16px;}
 body{font-size:.95em;}
 html,body,div,p,input,select,fieldset,form,ul,ol,li,dl,dt,dd,h1,h2,h3,h5,h6{margin:0;padding:0;outline:0;text-indent: 0;text-align:justify;color:#5b4636;font-family:Helvetica,Arial,sans-serif;line-height:1.5em;}
 h1,h2,h3,h5,h6{font-family:Times, Times New Roman, serif;line-height:1.5em;}
@@ -13,6 +12,140 @@ p{line-height:1.25em;margin:1em 0;}
 sup{font-size:.7em;line-height:0;vertical-align:super;}
 img{vertical-align:text-top;}
 hr{ border:0;height:1px;background:#333;background-image:linear-gradient(to right, #ccc, #333, #ccc); }
+
+h1 {
+  font-size: 38px
+}
+
+@media (max-width:480px) {
+  h1 {
+      font-size: 38px
+  }
+}
+
+@media (min-width:480px) {
+  h1 {
+      font-size: calc(38px + 12 * ((100vw - 480px)/ 512))
+  }
+}
+
+@media (min-width:992px) {
+  h1 {
+      font-size: 50px
+  }
+}
+
+h2 {
+  font-size: 28px
+}
+
+@media (max-width:480px) {
+  h2 {
+      font-size: 28px
+  }
+}
+
+@media (min-width:480px) {
+  h2 {
+      font-size: calc(28px + 10 * ((100vw - 480px)/ 512))
+  }
+}
+
+@media (min-width:992px) {
+  h2 {
+      font-size: 38px
+  }
+}
+
+h3 {
+  font-size: 19px
+}
+
+@media (max-width:480px) {
+  h3 {
+      font-size: 19px
+  }
+}
+
+@media (min-width:480px) {
+  h3 {
+      font-size: calc(19px + 7 * ((100vw - 480px)/ 512))
+  }
+}
+
+@media (min-width:992px) {
+  h3 {
+      font-size: 26px
+  }
+}
+
+h4 {
+  font-size: 16px
+}
+
+@media (max-width:480px) {
+  h4 {
+      font-size: 16px
+  }
+}
+
+@media (min-width:480px) {
+  h4 {
+      font-size: calc(16px + 2 * ((100vw - 480px)/ 512))
+  }
+}
+
+@media (min-width:992px) {
+  h4 {
+      font-size: 18px
+  }
+}
+
+h5 {
+  font-size: 16px
+}
+
+@media (max-width:480px) {
+  h5 {
+      font-size: 16px
+  }
+}
+
+@media (min-width:480px) {
+  h5 {
+      font-size: calc(16px + 2 * ((100vw - 480px)/ 512))
+  }
+}
+
+@media (min-width:992px) {
+  h5 {
+      font-size: 18px
+  }
+}
+
+h6 {
+  font-size: 16px
+}
+
+@media (max-width:480px) {
+  h6 {
+      font-size: 16px
+  }
+}
+
+@media (min-width:480px) {
+  h6 {
+      font-size: calc(16px + 2 * ((100vw - 480px)/ 512))
+  }
+}
+
+@media (min-width:992px) {
+  h6 {
+      font-size: 18px
+  }
+}
+
+
 .inner{position:relative;padding:6px 10px;}
 .inner:after {visibility: hidden;display: block;font-size: 0;content: " ";clear: both;height: 0;}
 .title{font-size:30px;}
@@ -22,7 +155,7 @@ hr{ border:0;height:1px;background:#333;background-image:linear-gradient(to righ
 #header{top:0;border-bottom:1px solid silver;}
 #footer{bottom:0;border-top:1px solid silver;}
 
-#aside{position: fixed;display:none;overflow: auto;background: #e9e9e9;top: 51px;bottom: 51px;left: 0;max-width: 768px;border-right: 1px solid #899caa}
+#aside{position: fixed;display:none;overflow: auto;background: #e9e9e9;top: 51px;bottom: 51px;left: 0;width: 100%;border-right: 1px solid #899caa}
 #aside.on{display:block;}
 @media only screen and (max-width: 768px) {
   #aside {

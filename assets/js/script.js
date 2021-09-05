@@ -306,6 +306,7 @@ $(document).ready(function() {
 	var top_offset = 0;
     $("body").on('click','a.toc',function(event) {
         $(this).toggleClass('on');
+        $('body').toggleClass('noscroll');
         event.preventDefault();
 		$('#aside').toggleClass('on');
 		visible = !visible;
