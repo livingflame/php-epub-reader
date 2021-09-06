@@ -146,7 +146,7 @@ if(isset($url_path[0]) && $url_path[0] == 'read'){
     }
     $pagination = new ArrayPagination();
     $yourDataArray = (array) $yourDataArray;
-    $data = $pagination->generate($yourDataArray,20);
+    $data = $pagination->generate($yourDataArray,10);
 
 ?>
 <!DOCTYPE html>
