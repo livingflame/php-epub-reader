@@ -191,8 +191,7 @@ ul.pagination li span{font-size:16px;}
 #header a.toc.on{background: #d2e0ea;}
 #header .nav{display:inline-block;width:100%;text-align:center;}
 #header .read{background-color:#e6dabf;}
-#speakContainer,
-#header a.library{float:right;}
+#speakContainer{float:right;}
 #speakContainer{position:relative;margin-right:8px;}
 #speakButton,
 #speakPrev,
@@ -244,3 +243,8 @@ fieldset#tts_body{-moz-border-radius:3px;background:#fff;border-radius:3px;margi
 .nav_container{float:left;}
 .word_highlight{text-decoration:underline;}
 #content .read{background:#dcdcdc;}
+
+body [class*=" icofont-"],
+body [class^=icofont-]{
+  line-height: inherit;
+}
