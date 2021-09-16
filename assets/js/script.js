@@ -83,6 +83,7 @@ $(document).ready(function() {
             // Return the word, using the located bounds to extract it from the string.
             return str.slice(left, right + pos);
         }
+
         var readParagraph = function(p){
             if ( par[p] !== undefined ) {
                 current_index = p;
@@ -267,7 +268,12 @@ $(document).ready(function() {
 
         $("body").on('click','#speakPrev',function (e) {
             e.preventDefault();
-            readParagraph(current_index-2);
+			if(current_index > 0){
+				readParagraph(current_index-1);
+			} else {
+				readParagraph(0);
+			}
+            
         });
 
         $("body").on('click','#speakNext',function (e) {
@@ -278,12 +284,16 @@ $(document).ready(function() {
         $(document).keydown(function(e){
             //37 - left
             if (e.which == 37) {
-                $('#speakPrev').click();
+				if(speaking){
+					$('#speakPrev').click();
+				}
 				e.preventDefault();
             }
             //39 - right   
             if (e.which == 39) {
-                $('#speakNext').click();
+				if(speaking){
+					$('#speakNext').click();
+				}
 				e.preventDefault();
             }
         });
