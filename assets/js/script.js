@@ -22,11 +22,14 @@ $(document).ready(function() {
     var synth = window.speechSynthesis;
     var texts = [];
     var voices = [];
+
     var read_status = 'init';
     var speaking = false;
     window.utterances = [];
-    function injectVoices(voicesElement, speech_voices) {
-        voices = speech_voices;
+    function injectVoices() {
+        var voicesElement = $('#voice');
+        voices = synth.getVoices();
+        console.log(voices);
         voicesElement.empty();
         $.each(voices, function (i, voice) {
             var option = document.createElement('option');
@@ -61,12 +64,28 @@ $(document).ready(function() {
             $(this).attr('disabled', 'disabled');
         });
     } else {
+        var utterance = new SpeechSynthesisUtterance();
     	var par = [];
     	var current_index = 0;
         var voice = $('#voice');
         var rate = $( "#rate" );
         var pitch = $( "#pitch" );
+        var volume = $( "#volume" );
+        $('body').on('input change', '#volume', function() {
+            
+            console.log('volume_change');
+            utterance.volume = $(this).val();
+        });
+        $('body').on('input change', '#pitch', function() {
+            utterance.pitch = $(this).val();
+        });
+        $('body').on('input change', '#rate', function() {
+            utterance.rate = $(this).val();
+        });
         
+        
+        
+
         function getWordAt(str, pos) {
             // Perform type conversions.
             str = String(str);
@@ -95,7 +114,7 @@ $(document).ready(function() {
                     synth.cancel();
                 } 
                 // Create the utterance object setting the chosen parameters
-                var utterance = new SpeechSynthesisUtterance();
+                
                 var content =  paragraph.html();
                 var text =  paragraph.text();
                 var words   = text.split(" ");
@@ -126,6 +145,7 @@ $(document).ready(function() {
 
                 words_occurence = {};
                 utterance.onboundary = function( e ) {
+                    console.log('onboundary',e);
                     var word = getWordAt(text,e.charIndex);
                     word = classWord(word);
                     paragraph.find('span').removeClass('word_highlight');
@@ -133,24 +153,35 @@ $(document).ready(function() {
                 };
 
                 utterance.onstart = function(event){
+                    console.log('onstart',this);
                     paragraph.addClass('read');
                 };
 
                 utterance.onend = function(event){
+                    console.log('onend',event);
                     var text_length = event.utterance.text.length;
-                    if(event.charIndex == text_length){
+                    if(event.type === 'end'){
                         paragraph.html(content);
                         readParagraph(p+1);
-                        logEvent('finished');
                     } else {
-                        logEvent('paused');
+                        if(event.charIndex == text_length){
+                            paragraph.html(content);
+                            readParagraph(p+1);
+                            logEvent('finished');
+                        } else {
+                            logEvent('paused');
+                        }
                     }
+
                     paragraph.removeClass('read');
                 };
                 
                 utterance.lang = selectedOption.val();
                 utterance.rate = rate.val();
                 utterance.pitch = pitch.val();
+                utterance.volume = volume.val();
+
+                console.log(utterance);
 
                 synth.speak(utterance);
 
@@ -235,9 +266,9 @@ $(document).ready(function() {
             });
         });
 
-        injectVoices($('#voice'), synth.getVoices());
+        injectVoices();
         if (synth.onvoiceschanged !== undefined) {
-            synth.onvoiceschanged = injectVoices($('#voice'), synth.getVoices());
+            synth.onvoiceschanged = injectVoices;
         };
 
         $("body").on('click','#button-stop',function () {
@@ -272,8 +303,7 @@ $(document).ready(function() {
 				readParagraph(current_index-1);
 			} else {
 				readParagraph(0);
-			}
-            
+			} 
         });
 
         $("body").on('click','#speakNext',function (e) {

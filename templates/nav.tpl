@@ -1,3 +1,4 @@
+<a class="library" href="<?php echo $base_url; ?>"><i class="icofont-library"></i> Library</a>
 <a class="toc" href="#">TOC</a>
 <ul class="pagination">
 <?php if ($show_page > 1) { ?>

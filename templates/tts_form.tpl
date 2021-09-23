@@ -17,6 +17,10 @@
                 <label for="pitch">Pitch:</label>
                 <input type="range" id="pitch" min="0" max="2" value="1" step="0.1">
             </fieldset>
+            <fieldset class="field-wrapper">
+                <label for="volume">Volume:</label>
+                <input type="range" id="volume" min="0" max="1" value="1" step="0.1">
+            </fieldset>
         </fieldset>
         <fieldset class="buttons-wrapper">
             <button type="button" id="button-speak" class="button">Speak</button>

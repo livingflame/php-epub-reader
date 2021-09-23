@@ -26,7 +26,6 @@
             <div class="inner">
                 <div class="nav">
                     <div class="nav_container">
-                    <a class="library" href="<?php echo $base_url; ?>"><i class="icofont-library"></i> Library</a>
                     <?php echo $nav; ?>
                     </div>
                     <div id="speakContainer">
