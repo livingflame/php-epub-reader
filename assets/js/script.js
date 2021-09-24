@@ -117,24 +117,6 @@ $(document).ready(function() {
                 
                 var content =  paragraph.html();
                 var text =  paragraph.text();
-                var words   = text.split(" ");
-                var words_occurence = {};
-                var classWord = function(word){
-                    word = word.replace(/[^a-z0-9\s]/gi, '');
-                    if(isset(words_occurence[word])){
-                        words_occurence[word] = words_occurence[word] + 1;
-                        word = word +'_'+ words_occurence[word];
-                    } else {
-                        words_occurence[word] = 0;
-                    }
-                    return word;
-                };
-
-                paragraph.empty();
-                $.each(words, function(i, v) { 
-                    var cword = classWord(v);
-                    paragraph.append($('<span class="word_speak_'+cword+'"></span>').text(v + ' '));
-                });
 
                 utterance.text = text;
                 for(var i = 0; i < voices.length ; i++) {
@@ -143,13 +125,11 @@ $(document).ready(function() {
                     }
                 }
 
-                words_occurence = {};
                 utterance.onboundary = function( e ) {
-                    console.log('onboundary',e);
-                    var word = getWordAt(text,e.charIndex);
-                    word = classWord(word);
-                    paragraph.find('span').removeClass('word_highlight');
-                    paragraph.find(".word_speak_"+word).addClass('word_highlight');
+                    console.log(text.substring(e.charIndex,e.charIndex+e.charLength),e);
+
+                    var innerHTML = text.substring(0,e.charIndex) + "<span class='word_highlight'>" + text.substring(e.charIndex,e.charIndex+e.charLength) + "</span>" + text.substring(e.charIndex + e.charLength);
+                    paragraph.html(innerHTML);
                 };
 
                 utterance.onstart = function(event){
@@ -160,20 +140,9 @@ $(document).ready(function() {
                 utterance.onend = function(event){
                     console.log('onend',event);
                     var text_length = event.utterance.text.length;
-                    if(event.type === 'end'){
-                        paragraph.html(content);
-                        readParagraph(p+1);
-                    } else {
-                        if(event.charIndex == text_length){
-                            paragraph.html(content);
-                            readParagraph(p+1);
-                            logEvent('finished');
-                        } else {
-                            logEvent('paused');
-                        }
-                    }
-
+                    paragraph.html(content);
                     paragraph.removeClass('read');
+                    readParagraph(p+1);
                 };
                 
                 utterance.lang = selectedOption.val();
