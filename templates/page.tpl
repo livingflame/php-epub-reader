@@ -5,7 +5,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <link id="xui_style" rel="stylesheet" type="text/css" href="<?php echo $base_url; ?>assets/css/style.css" />
         <?php echo $head; ?>
-        <link id="xui_style" rel="stylesheet" type="text/css" href="<?php echo $base_url; ?>assets/icofont/icofont.min.css" />
+        <link id="xui_icofont" rel="stylesheet" type="text/css" href="<?php echo $base_url; ?>assets/icofont/icofont.min.css" />
         <script type="text/javascript" src="<?php echo $base_url; ?>assets/js/jquery.min.js"></script>
         <script type="text/javascript" src="<?php echo $base_url; ?>assets/js/script.js"></script>
     </head>

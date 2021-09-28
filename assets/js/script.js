@@ -218,7 +218,7 @@ $(document).ready(function() {
                 $(".book_title").html( data.book );
                 
                 $(".nav_container").html( data.nav );
-                $('head').find('link').not('#xui_style').remove();
+                $('head').find('link').not("[id^='xui']").remove();
                 $('head').find('style').remove();
                 $.each(data.css,function(i,css){
                     $('title').after(css);
